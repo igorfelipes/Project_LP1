@@ -172,6 +172,7 @@ do{
     }while(menu_option !='4'); // Com a utilização do Do While, da para incorporar o tratamento de erros
 
     //teste comentário
+    //Teste para saber se aprendi a usar o git
 
   return 0;
 }
