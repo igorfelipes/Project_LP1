@@ -171,6 +171,7 @@ do{
 
     }while(menu_option !='4'); // Com a utilização do Do While, da para incorporar o tratamento de erros
 
+    //teste comentário
 
   return 0;
 }
