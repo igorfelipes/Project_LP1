@@ -226,6 +226,8 @@ int main(){
 
   }while(menu_option !='4'); // Com a utilização do Do While, da para incorporar o tratamento de erros
 
+  //teste de grafos
+
 
 
   return 0;
