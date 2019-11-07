@@ -22,6 +22,9 @@ typedef struct calls{
     char author[MAX_20];
 }Calls; // declarando a estrutura como Calls, para faciliar o manuseio
 
+//variável para guardar a mensagem do usuario - global
+char msg[400];
+
 
 int main(){
 
@@ -256,7 +259,37 @@ int main(){
 
           //Opção 3 - Enviar Mensagem
           case'3':
-              printf("Enviar Mensagem\n");
+              printf("opção 3 - Enviar Mensagem acionado\n");
+              printf("\n\n");
+              printf("  ________________________________________________\n"
+                      " /                                                \\\n"
+                       "|    _________________________________________     |\n"
+                       "|   |                                         |    |\n"
+                       "|   |         ALANA'S CORPORATION             |    |\n"
+                       "|   |                                         |    |\n"
+                       "|   |          -MENSAGEM-FEEDBACK-            |    |\n"
+                       "|   |                                         |    |\n"
+                       "|   |                                         |    |\n"
+                       "|   |                                         |    |\n"
+                       "|   |                                         |    |\n"
+                       "|   |                                         |    |\n"
+                       "|   |                                         |    |\n"
+                       "|   |                                         |    |\n"
+                       "|   |                                         |    |\n"
+                       "|   |_________________________________________|    |\n"
+                       "|                                                  |\n"
+                      "\\__________________________________________________/\n"
+                    "        \\___________________________________/\n"
+                        "    ___________________________________________\n\n");
+              printf("Digite sua mensagem: ");
+              __fpurge(stdin);
+              fgets(msg, 400, stdin);
+              //setbuf(stdin, NULL);
+              __fpurge(stdin);
+              fprintf(msg_feedback, "Autor: %s\n",calls.author);
+              fprintf(msg_feedback, "Mensagem: %s\n", msg);
+              fprintf(msg_feedbackq, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+
           break;
 
           //Opção 2 - SAIR
