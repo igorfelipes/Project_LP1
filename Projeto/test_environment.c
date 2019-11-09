@@ -61,11 +61,14 @@ int main(){
 
   //Variáveis
 
-  char menu_option; // guarda a opção escolhida pelo usuário
+  char menu_option_str[MAX_20]; // guarda a opção escolhida pelo usuário
+  int menu_option;
   char serv_rede[MAX_20] = "Serviço de rede\0"; // chamado relacionados a serviço de rede
   char serv_internet[MAX_40] = "Serviço de Internet\0"; // chamado relacionados a serviço de de internet
 
   Calls calls; //struct com variáveis que servem como informação necessária para um chamado
+
+
 
   strcpy(calls.status, " Em aberto ");
 
@@ -116,7 +119,8 @@ int main(){
               "    ___________________________________________\n\n");
       printf("Insira sua opção: ");
 
-      menu_option = getchar(); //Pega a opção do usuário
+      fgets(menu_option_str, MAX_40, stdin);
+      menu_option = atoi(menu_option_str);
       clearBuffer();
 
 
@@ -124,7 +128,7 @@ int main(){
       switch(menu_option){
 
           //Opção 1 - ABRIR CHAMADO
-          case '1':
+          case 1:
 
                 do{
                   printf("\n\n");
@@ -149,15 +153,16 @@ int main(){
                         "        \\___________________________________/\n"
                             "    ___________________________________________\n\n");
                     printf("Insira sua opção: ");
-                    __fpurge(stdin);
-                    menu_option = getchar();
+                    clearBuffer();
+                    fgets(menu_option_str, MAX_40, stdin);
+                    menu_option = atoi(menu_option_str);
                     clearBuffer();
 
 
 
                     switch (menu_option) {
 
-                      case '1':  //Chamados relacionados a serviço de internet
+                      case 1:  //Chamados relacionados a serviço de internet
                         printf("Opção 1 de chamados acionado\n");
                         printf("\n\n");
                         printf("  ________________________________________________\n"
@@ -209,7 +214,7 @@ int main(){
 
                       break;
 
-                      case '2':
+                      case 2:
                         printf("Opção 2 de chamados acionado\n");
                         printf("\n\n");
                         printf("  ________________________________________________\n"
@@ -262,7 +267,7 @@ int main(){
                       break;
 
                       //Retorna para o menu anterior
-                      case '3':
+                      case 3:
                       break;
 
                       default:
@@ -270,17 +275,17 @@ int main(){
                       break;
                     }
                 }
-                while (menu_option != '3');
+                while (menu_option != 3);
 
           break;
 
           //Opção 2 - Histórico de chamados
-          case '2':
+          case 2:
               printf("Histórico de chamados\n");
           break;
 
           //Opção 3 - Enviar Mensagem
-          case'3':
+          case 3:
               printf("opção 3 - Enviar Mensagem acionado\n");
               printf("\n\n");
               printf("  ________________________________________________\n"
@@ -315,7 +320,7 @@ int main(){
           break;
 
           //Opção 2 - SAIR
-          case'4':
+          case 4:
           break;
 
           default:
@@ -323,7 +328,7 @@ int main(){
           break;
         }
 
-  }while(menu_option !='4'); // Com a utilização do Do While, da para incorporar o tratamento de erros
+  }while(menu_option != 4); // Com a utilização do Do While, da para incorporar o tratamento de erros
 
 
 
