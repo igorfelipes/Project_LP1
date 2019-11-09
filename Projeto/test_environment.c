@@ -1,11 +1,19 @@
-#include <stdio_ext.h> // Se estiver utilizando sistemas Linux
+#include <stdio_ext.h> // Se estiver utilizando sistemas Linux habilite essa biblioteca, caso não esteja comente essa linha de código
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
 #include <string.h>
 #include <time.h>
 
-// Constantes para manusear o valor das variáveis
+/* Libraries
+
+
+
+/*
+ *  Foi definida as constantes abaixo para ficar mais fácil de manusear
+ *  as variáveis do tipo String do codigo
+ */
+
 #define MAX_200 200
 #define MAX_20 20
 #define MAX_40 40
@@ -14,21 +22,29 @@
 int id_temp = 0;
 
 
-// estrutura de informações contidas dentro de um chamado
+/*               Estrutura de informações contidas dentro de um chamado
+ *
+ *      Struct calls armazena os dados contidos dentro de um chamado, Título,
+ *      Descrição, status ( 0- em aberto, 1- em atendimento , 2- em atendimento - visita técnica,
+ *      3-concluído e 4- não resolvido), e o autor do chamado
+ */
+
 typedef struct calls{
     char title_calls[MAX_40];
-    char type_calls[MAX_40];
     char descr[MAX_200];
     char status[MAX_20];
     char author[MAX_20];
 }Calls; // declarando a estrutura como Calls, para faciliar o manuseio
 
-//variável para guardar a mensagem do usuario - global
-char msg[400];
 
 
+// Variáveis globais
+char msg[400]; //variável para guardar a mensagem do usuario
+char menu_option_str[MAX_20]; // guarda a opção escolhida pelo usuário
+int menu_option; //recebe a escolha do usuário após a conversão de string para int
 
-//Funções
+
+/* Funções */
 
 //Função de limpeza de buffer do teclado - Linux/Windows
 void clearBuffer(){
@@ -37,17 +53,19 @@ void clearBuffer(){
 
 }
 
-//função principal
+// Função principal
 int main(){
 
-  setlocale(LC_ALL,"Portuguese");
+  setlocale(LC_ALL,"Portuguese"); // habilitando o uso de Ç e acentos no código
+
 
   //Organizando o uso de data e hora da biblioteca time.h
+
   int hours, minutes, seconds, day, month, year;
 
   // declarando as estruras da biblioteca time.h
   time_t now_time;
-  time(&now_time); // retorna a as horas em segundos
+  time(&now_time); // retorna as horas em segundos
   struct tm *info_time = localtime(&now_time); // converte de segundos para o sistema local, retornando um ponteiro de tipo tm
 
   hours = info_time->tm_hour;
@@ -60,12 +78,10 @@ int main(){
 
 
   //Variáveis
-
-  char menu_option_str[MAX_20]; // guarda a opção escolhida pelo usuário
-  int menu_option;
   char serv_rede[MAX_20] = "Serviço de rede\0"; // chamado relacionados a serviço de rede
   char serv_internet[MAX_40] = "Serviço de Internet\0"; // chamado relacionados a serviço de de internet
 
+  //declaração da struct calls
   Calls calls; //struct com variáveis que servem como informação necessária para um chamado
 
 
@@ -76,7 +92,11 @@ int main(){
   FILE *file_calls;
   FILE *msg_feedback;
 
-
+/*
+ *   Para armazenar as mensagens de feedback e os chamados
+ *   abertos pelo cliente foram criados os arquivos .txt abaixo
+ */
+ 
   file_calls = fopen("calls.txt", "a");
   msg_feedback = fopen("msg_feedback.txt", "a");
 
@@ -127,7 +147,7 @@ int main(){
 
       switch(menu_option){
 
-          //Opção 1 - ABRIR CHAMADO
+          //Opção 1 - Abrir chamado
           case 1:
 
                 do{
@@ -162,7 +182,9 @@ int main(){
 
                     switch (menu_option) {
 
-                      case 1:  //Chamados relacionados a serviço de internet
+
+                      //Chamados relacionados a serviço de rede
+                      case 1:
                         printf("Opção 1 de chamados acionado\n");
                         printf("\n\n");
                         printf("  ________________________________________________\n"
@@ -214,6 +236,7 @@ int main(){
 
                       break;
 
+                      //Chamados relacionados a serviço de internet
                       case 2:
                         printf("Opção 2 de chamados acionado\n");
                         printf("\n\n");
@@ -270,6 +293,7 @@ int main(){
                       case 3:
                       break;
 
+                      //Entrada inválida, tratamento de erro
                       default:
                       printf("Invalid Option\n");
                       break;
@@ -319,7 +343,7 @@ int main(){
 
           break;
 
-          //Opção 2 - SAIR
+          //Opção 4 - SAIR
           case 4:
           break;
 
