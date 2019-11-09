@@ -10,6 +10,7 @@
 #define MAX_20 20
 #define MAX_40 40
 
+
 int id_temp = 0;
 
 
@@ -26,6 +27,17 @@ typedef struct calls{
 char msg[400];
 
 
+
+//Funções
+
+//Função de limpeza de buffer do teclado - Linux/Windows
+void clearBuffer(){
+  __fpurge(stdin); //Limpeza de buffer em Sistemas Linux
+  /*setbuf(stdin, NULL); // Se estiver utilizando Windows, comente a linha de código a cima e utilize essa */
+
+}
+
+//função principal
 int main(){
 
   setlocale(LC_ALL,"Portuguese");
@@ -68,12 +80,12 @@ int main(){
 
   // Verificação da abertura dos dois arquivos de armazenamento
 
-  // Chamados
+  // Arquivo de chamados
   if(file_calls == NULL){
     printf("File couldn't be opened calls.txt\n");
     return 0;
   }
-  // Mensagens
+  // Arquivp de mensagens
   if(msg_feedback == NULL){
     printf("File couldn't be opened msg_feedback.txt\n");
     return 0;
@@ -105,8 +117,9 @@ int main(){
       printf("Insira sua opção: ");
 
       menu_option = getchar(); //Pega a opção do usuário
-      __fpurge(stdin); //Limpeza de buffer em Sistemas Linux
-      /*setbuf(stdin, NULL); // Se estiver utilizando Windows, comente a linha de código a cima e utilize essa */
+      clearBuffer();
+
+
 
       switch(menu_option){
 
@@ -138,9 +151,9 @@ int main(){
                     printf("Insira sua opção: ");
                     __fpurge(stdin);
                     menu_option = getchar();
-                    //setbuf(stdin, NULL);
-                    __fpurge(stdin);
-                    //setbuf(stdin, NULL);
+                    clearBuffer();
+
+
 
                     switch (menu_option) {
 
@@ -168,13 +181,17 @@ int main(){
                               "        \\___________________________________/\n"
                                   "    ___________________________________________\n\n");
                         printf("Digite o Título do chamado: ");
-                        __fpurge(stdin);
+                        clearBuffer();
+
+
                         fgets(calls.title_calls, MAX_40, stdin);
-                        //setbuf(stdin, NULL);
-                        __fpurge(stdin);
+                        clearBuffer();
+
                         printf("Digite a descrição do chamado: ");
                         fgets(calls.descr, MAX_200, stdin);
-                        __fpurge(stdin);
+                        clearBuffer();
+
+
                         printf("Digite seu nome: ");
                         fgets(calls.author, MAX_200, stdin);
 
@@ -187,7 +204,7 @@ int main(){
                         fprintf(file_calls, "Descrição: %s", calls.descr );
                         fprintf(file_calls, "Data e hora: %02d/%02d/%02d - %02d:%02d:%02d\n\n", day, month, year, hours, minutes, seconds);
                         fprintf(file_calls, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
-                        //setbuf(stdin, NULL);
+
 
 
                       break;
@@ -216,13 +233,18 @@ int main(){
                               "        \\___________________________________/\n"
                                   "    ___________________________________________\n\n");
                         printf("Digite o Título do chamado: ");
-                        __fpurge(stdin);
+                        clearBuffer();
+
+
                         fgets(calls.title_calls, MAX_40, stdin);
-                        //setbuf(stdin, NULL);
-                        __fpurge(stdin);
+                        clearBuffer();
+
+
                         printf("Digite a descrição do chamado: ");
                         fgets(calls.descr, MAX_200, stdin);
-                        __fpurge(stdin);
+                        clearBuffer();
+
+
                         printf("Digite seu nome: ");
                         fgets(calls.author, MAX_200, stdin);
 
@@ -235,7 +257,7 @@ int main(){
                         fprintf(file_calls, "Descrição: %s", calls.descr );
                         fprintf(file_calls, "Data e hora: %02d/%02d/%02d - %02d:%02d:%02d\n\n", day, month, year, hours, minutes, seconds);
                         fprintf(file_calls, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
-                        //setbuf(stdin, NULL);
+
 
                       break;
 
@@ -284,11 +306,11 @@ int main(){
               printf("Digite sua mensagem: ");
               __fpurge(stdin);
               fgets(msg, 400, stdin);
-              //setbuf(stdin, NULL);
-              __fpurge(stdin);
+              clearBuffer();
+
               fprintf(msg_feedback, "Autor: %s\n",calls.author);
               fprintf(msg_feedback, "Mensagem: %s\n", msg);
-              fprintf(msg_feedbackq, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+              fprintf(msg_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
 
           break;
 
