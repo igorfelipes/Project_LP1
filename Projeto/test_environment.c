@@ -5,8 +5,6 @@
 #include <string.h>
 #include <time.h>
 
-/* Libraries
-
 
 
 /*
@@ -50,8 +48,18 @@ int menu_option; //recebe a escolha do usuário após a conversão de string par
 void clearBuffer(){
   __fpurge(stdin); //Limpeza de buffer em Sistemas Linux
   /*setbuf(stdin, NULL); // Se estiver utilizando Windows, comente a linha de código a cima e utilize essa */
-
 }
+
+
+//Função get_option faz a limpeza do buffer de teclado, pega a opção escolhida pelo usuário e armazena nas variáveis globais
+void get_option(){
+  clearBuffer();
+  fgets(menu_option_str, MAX_40, stdin);
+  menu_option = atoi(menu_option_str);
+  clearBuffer();
+}
+
+
 
 // Função principal
 int main(){
@@ -96,7 +104,7 @@ int main(){
  *   Para armazenar as mensagens de feedback e os chamados
  *   abertos pelo cliente foram criados os arquivos .txt abaixo
  */
- 
+
   file_calls = fopen("calls.txt", "a");
   msg_feedback = fopen("msg_feedback.txt", "a");
 
@@ -138,10 +146,7 @@ int main(){
           "        \\___________________________________/\n"
               "    ___________________________________________\n\n");
       printf("Insira sua opção: ");
-
-      fgets(menu_option_str, MAX_40, stdin);
-      menu_option = atoi(menu_option_str);
-      clearBuffer();
+      get_option();
 
 
 
@@ -173,10 +178,7 @@ int main(){
                         "        \\___________________________________/\n"
                             "    ___________________________________________\n\n");
                     printf("Insira sua opção: ");
-                    clearBuffer();
-                    fgets(menu_option_str, MAX_40, stdin);
-                    menu_option = atoi(menu_option_str);
-                    clearBuffer();
+                    get_option();
 
 
 
@@ -333,7 +335,7 @@ int main(){
                     "        \\___________________________________/\n"
                         "    ___________________________________________\n\n");
               printf("Digite sua mensagem: ");
-              __fpurge(stdin);
+              clearBuffer();
               fgets(msg, 400, stdin);
               clearBuffer();
 
