@@ -15,6 +15,7 @@
 #define MAX_200 200
 #define MAX_20 20
 #define MAX_40 40
+#define MAX_LINE 1000
 
 
 int id_temp = 0;
@@ -32,7 +33,19 @@ typedef struct calls{
     char descr[MAX_200];
     char status[MAX_20];
     char author[MAX_20];
-}Calls; // declarando a estrutura como Calls, para faciliar o manuseio
+}Calls;
+
+// Estrutura para armazenar os usuários cadastrados no Sistema
+
+typedef struct managers{
+  char login[10];
+  char password[10];
+}Managers;
+
+typedef struct customers{
+  char login[10];
+  char password[10];
+}Customers;
 
 
 
@@ -40,6 +53,19 @@ typedef struct calls{
 char msg[400]; //variável para guardar a mensagem do usuario
 char menu_option_str[MAX_20]; // guarda a opção escolhida pelo usuário
 int menu_option; //recebe a escolha do usuário após a conversão de string para int
+char line[MAX_LINE]; //recebe cada linha para a impressao de historico de chamados
+char serv_rede[MAX_20] = "Serviço de rede\0"; // chamado relacionados a serviço de rede
+char serv_internet[MAX_40] = "Serviço de Internet\0"; // chamado relacionados a serviço de de internet
+
+
+
+
+//declaração da struct calls
+Calls calls; //struct com variáveis que servem como informação necessária para um chamado
+Customers customers;
+Managers managers;
+
+
 
 
 /* Funções */
@@ -85,20 +111,22 @@ int main(){
   year = info_time->tm_year + 1900; // retorn a quantidade de anos depois de 1900
 
 
-  //Variáveis
-  char serv_rede[MAX_20] = "Serviço de rede\0"; // chamado relacionados a serviço de rede
-  char serv_internet[MAX_40] = "Serviço de Internet\0"; // chamado relacionados a serviço de de internet
+  strcpy(calls.status, "Em aberto "); // Todos os chamados inicializão Em aberto
+  strcpy(managers.login, "admin");
+  strcpy(managers.password, "admin");
+  strcpy(customers.login, "cliente\n");
+  strcpy(customers.password, "1234\n");
 
-  //declaração da struct calls
-  Calls calls; //struct com variáveis que servem como informação necessária para um chamado
-
-
-
-  strcpy(calls.status, " Em aberto ");
-
+ //printf("%s \n",customers.login);
  //Ponteiros de arquivos
   FILE *file_calls;
   FILE *msg_feedback;
+
+  //Variaveis para armazenar o login e senha
+  char login[10];
+  char password[10];
+
+  int option_access;
 
 /*
  *   Para armazenar as mensagens de feedback e os chamados
@@ -121,6 +149,41 @@ int main(){
     printf("File couldn't be opened msg_feedback.txt\n");
     return 0;
   }
+
+  printf("  ________________________________________________\n"
+          " /                                                \\\n"
+           "|    _________________________________________     |\n"
+           "|   |                                         |    |\n"
+           "|   |          ALANA'S CORPORATION            |    |\n"
+           "|   |                                         |    |\n"
+           "|   | Login:                                  |    |\n"
+           "|   | Senha:                                  |    |\n"
+           "|   |                                         |    |\n"
+           "|   |                                         |    |\n"
+           "|   |                                         |    |\n"
+           "|   |                                         |    |\n"
+           "|   |                                         |    |\n"
+           "|   |                                         |    |\n"
+           "|   |                                         |    |\n"
+           "|   |_________________________________________|    |\n"
+           "|                                                  |\n"
+          "\\__________________________________________________/\n"
+        "        \\___________________________________/\n"
+            "    ___________________________________________\n\n");
+  printf("Login: ");
+  clearBuffer();
+  fgets(login, 10, stdin);
+  printf("Password: ");
+  clearBuffer();
+  fgets(password, 10, stdin);
+
+  if((strcmp(login, customers.login) == 0) && (strcmp(password, customers.password) == 0)){
+  option_access = 1;
+printf("Deu certo\n");}
+  else{option_access = 0; printf("deu errado\n");}
+
+
+
 
 
  // Menu de opções do sistema
@@ -307,7 +370,14 @@ int main(){
 
           //Opção 2 - Histórico de chamados
           case 2:
-              printf("Histórico de chamados\n");
+              fclose(file_calls);
+              file_calls = fopen("calls.txt", "r");
+              while (fgets(line, MAX_LINE, file_calls)) {
+                printf("%s\n",line );
+              }
+              fclose(file_calls);
+              file_calls = fopen("calls.txt", "a");
+
           break;
 
           //Opção 3 - Enviar Mensagem
