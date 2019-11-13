@@ -126,7 +126,7 @@ int main(){
   char login[10];
   char password[10];
 
-  int option_access;
+  int option_access = 0;
 
 /*
  *   Para armazenar as mensagens de feedback e os chamados
@@ -150,54 +150,22 @@ int main(){
     return 0;
   }
 
-  printf("  ________________________________________________\n"
-          " /                                                \\\n"
-           "|    _________________________________________     |\n"
-           "|   |                                         |    |\n"
-           "|   |          ALANA'S CORPORATION            |    |\n"
-           "|   |                                         |    |\n"
-           "|   | Login:                                  |    |\n"
-           "|   | Senha:                                  |    |\n"
-           "|   |                                         |    |\n"
-           "|   |                                         |    |\n"
-           "|   |                                         |    |\n"
-           "|   |                                         |    |\n"
-           "|   |                                         |    |\n"
-           "|   |                                         |    |\n"
-           "|   |                                         |    |\n"
-           "|   |_________________________________________|    |\n"
-           "|                                                  |\n"
-          "\\__________________________________________________/\n"
-        "        \\___________________________________/\n"
-            "    ___________________________________________\n\n");
-  printf("Login: ");
-  clearBuffer();
-  fgets(login, 10, stdin);
-  printf("Password: ");
-  clearBuffer();
-  fgets(password, 10, stdin);
-
-  if((strcmp(login, customers.login) == 0) && (strcmp(password, customers.password) == 0)){
-  option_access = 1;
-printf("Deu certo\n");}
-  else{option_access = 0; printf("deu errado\n");}
 
 
 
 
+  while ( option_access == 0) {
 
- // Menu de opções do sistema
-  do{
     printf("  ________________________________________________\n"
             " /                                                \\\n"
              "|    _________________________________________     |\n"
              "|   |                                         |    |\n"
              "|   |          ALANA'S CORPORATION            |    |\n"
              "|   |                                         |    |\n"
-             "|   |  1-Criar Chamado                        |    |\n"
-             "|   |  2-Histórico de chamados                |    |\n"
-             "|   |  3-Enviar Mensagem                      |    |\n"
-             "|   |  4-Sair                                 |    |\n"
+             "|   | Login:                                  |    |\n"
+             "|   | Senha:                                  |    |\n"
+             "|   |                                         |    |\n"
+             "|   |                                         |    |\n"
              "|   |                                         |    |\n"
              "|   |                                         |    |\n"
              "|   |                                         |    |\n"
@@ -208,223 +176,271 @@ printf("Deu certo\n");}
             "\\__________________________________________________/\n"
           "        \\___________________________________/\n"
               "    ___________________________________________\n\n");
-      printf("Insira sua opção: ");
-      get_option();
+    printf("Login: ");
+    clearBuffer();
+    fgets(login, 10, stdin);
+    printf("Password: ");
+    clearBuffer();
+    fgets(password, 10, stdin);
+
+    if((strcmp(login, customers.login) == 0) && (strcmp(password, customers.password) == 0)){
+    option_access = 1;
+    printf("Deu certo\n");}
+    else{option_access = 0; printf("deu errado\n");}
+
+
+    switch (option_access) {
+      case 1:
+      // Menu de opções do sistema
+       do{
+         printf("  ________________________________________________\n"
+                 " /                                                \\\n"
+                  "|    _________________________________________     |\n"
+                  "|   |                                         |    |\n"
+                  "|   |          ALANA'S CORPORATION            |    |\n"
+                  "|   |                                         |    |\n"
+                  "|   |  1-Criar Chamado                        |    |\n"
+                  "|   |  2-Histórico de chamados                |    |\n"
+                  "|   |  3-Enviar Mensagem                      |    |\n"
+                  "|   |  4-Sair                                 |    |\n"
+                  "|   |                                         |    |\n"
+                  "|   |                                         |    |\n"
+                  "|   |                                         |    |\n"
+                  "|   |                                         |    |\n"
+                  "|   |                                         |    |\n"
+                  "|   |_________________________________________|    |\n"
+                  "|                                                  |\n"
+                 "\\__________________________________________________/\n"
+               "        \\___________________________________/\n"
+                   "    ___________________________________________\n\n");
+           printf("Insira sua opção: ");
+           get_option();
 
 
 
-      switch(menu_option){
+           switch(menu_option){
 
-          //Opção 1 - Abrir chamado
-          case 1:
+               //Opção 1 - Abrir chamado
+               case 1:
 
-                do{
-                  printf("\n\n");
-                  printf("  ________________________________________________\n"
-                          " /                                                \\\n"
-                           "|    _________________________________________     |\n"
-                           "|   |                                         |    |\n"
-                           "|   |         ALANA'S CORPORATION             |    |\n"
-                           "|   |                                         |    |\n"
-                           "|   |            -CHAMADOS-                   |    |\n"
-                           "|   |  1-Serviço de rede                      |    |\n"
-                           "|   |  2-Internet, problemas com a conexão    |    |\n"
-                           "|   |  3-Voltar                               |    |\n"
-                           "|   |                                         |    |\n"
-                           "|   |                                         |    |\n"
-                           "|   |                                         |    |\n"
-                           "|   |                                         |    |\n"
-                           "|   |                                         |    |\n"
-                           "|   |_________________________________________|    |\n"
-                           "|                                                  |\n"
-                          "\\__________________________________________________/\n"
-                        "        \\___________________________________/\n"
-                            "    ___________________________________________\n\n");
-                    printf("Insira sua opção: ");
-                    get_option();
-
-
-
-                    switch (menu_option) {
-
-
-                      //Chamados relacionados a serviço de rede
-                      case 1:
-                        printf("Opção 1 de chamados acionado\n");
-                        printf("\n\n");
-                        printf("  ________________________________________________\n"
-                                " /                                                \\\n"
-                                 "|    _________________________________________     |\n"
-                                 "|   |                                         |    |\n"
-                                 "|   |         ALANA'S CORPORATION             |    |\n"
-                                 "|   |                                         |    |\n"
-                                 "|   |            -CHAMADOS-                   |    |\n"
-                                 "|   |  Tipo do chamado: Serviço de rede       |    |\n"
-                                 "|   |  Título:                                |    |\n"
-                                 "|   |  Descrição:                             |    |\n"
-                                 "|   |  Autor:                                 |    |\n"
-                                 "|   |                                         |    |\n"
-                                 "|   |                                         |    |\n"
-                                 "|   |                                         |    |\n"
-                                 "|   |                                         |    |\n"
-                                 "|   |_________________________________________|    |\n"
-                                 "|                                                  |\n"
-                                "\\__________________________________________________/\n"
-                              "        \\___________________________________/\n"
-                                  "    ___________________________________________\n\n");
-                        printf("Digite o Título do chamado: ");
-                        clearBuffer();
-
-
-                        fgets(calls.title_calls, MAX_40, stdin);
-                        clearBuffer();
-
-                        printf("Digite a descrição do chamado: ");
-                        fgets(calls.descr, MAX_200, stdin);
-                        clearBuffer();
-
-
-                        printf("Digite seu nome: ");
-                        fgets(calls.author, MAX_200, stdin);
-
-                        // Formata o armazenamento dos chamados
-                        fprintf(file_calls, "ID: %i\n", id_temp);
-                        fprintf(file_calls, "Autor: %s",calls.author);
-                        fprintf(file_calls, "Status do chamado: %s\n", calls.status);
-                        fprintf(file_calls, "Tipo do chamado: %s\n", serv_rede);
-                        fprintf(file_calls, "Título: %s", calls.title_calls);
-                        fprintf(file_calls, "Descrição: %s", calls.descr );
-                        fprintf(file_calls, "Data e hora: %02d/%02d/%02d - %02d:%02d:%02d\n\n", day, month, year, hours, minutes, seconds);
-                        fprintf(file_calls, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+                     do{
+                       printf("\n\n");
+                       printf("  ________________________________________________\n"
+                               " /                                                \\\n"
+                                "|    _________________________________________     |\n"
+                                "|   |                                         |    |\n"
+                                "|   |         ALANA'S CORPORATION             |    |\n"
+                                "|   |                                         |    |\n"
+                                "|   |            -CHAMADOS-                   |    |\n"
+                                "|   |  1-Serviço de rede                      |    |\n"
+                                "|   |  2-Internet, problemas com a conexão    |    |\n"
+                                "|   |  3-Voltar                               |    |\n"
+                                "|   |                                         |    |\n"
+                                "|   |                                         |    |\n"
+                                "|   |                                         |    |\n"
+                                "|   |                                         |    |\n"
+                                "|   |                                         |    |\n"
+                                "|   |_________________________________________|    |\n"
+                                "|                                                  |\n"
+                               "\\__________________________________________________/\n"
+                             "        \\___________________________________/\n"
+                                 "    ___________________________________________\n\n");
+                         printf("Insira sua opção: ");
+                         get_option();
 
 
 
-                      break;
-
-                      //Chamados relacionados a serviço de internet
-                      case 2:
-                        printf("Opção 2 de chamados acionado\n");
-                        printf("\n\n");
-                        printf("  ________________________________________________\n"
-                                " /                                                \\\n"
-                                 "|    _________________________________________     |\n"
-                                 "|   |                                         |    |\n"
-                                 "|   |         ALANA'S CORPORATION             |    |\n"
-                                 "|   |                                         |    |\n"
-                                 "|   |            -CHAMADOS-                   |    |\n"
-                                 "|   |  Tipo do chamado: Serviço de Internet   |    |\n"
-                                 "|   |  Título:                                |    |\n"
-                                 "|   |  Descrição:                             |    |\n"
-                                 "|   |  Autor:                                 |    |\n"
-                                 "|   |                                         |    |\n"
-                                 "|   |                                         |    |\n"
-                                 "|   |                                         |    |\n"
-                                 "|   |                                         |    |\n"
-                                 "|   |_________________________________________|    |\n"
-                                 "|                                                  |\n"
-                                "\\__________________________________________________/\n"
-                              "        \\___________________________________/\n"
-                                  "    ___________________________________________\n\n");
-                        printf("Digite o Título do chamado: ");
-                        clearBuffer();
+                         switch (menu_option) {
 
 
-                        fgets(calls.title_calls, MAX_40, stdin);
-                        clearBuffer();
+                           //Chamados relacionados a serviço de rede
+                           case 1:
+                             printf("Opção 1 de chamados acionado\n");
+                             printf("\n\n");
+                             printf("  ________________________________________________\n"
+                                     " /                                                \\\n"
+                                      "|    _________________________________________     |\n"
+                                      "|   |                                         |    |\n"
+                                      "|   |         ALANA'S CORPORATION             |    |\n"
+                                      "|   |                                         |    |\n"
+                                      "|   |            -CHAMADOS-                   |    |\n"
+                                      "|   |  Tipo do chamado: Serviço de rede       |    |\n"
+                                      "|   |  Título:                                |    |\n"
+                                      "|   |  Descrição:                             |    |\n"
+                                      "|   |  Autor:                                 |    |\n"
+                                      "|   |                                         |    |\n"
+                                      "|   |                                         |    |\n"
+                                      "|   |                                         |    |\n"
+                                      "|   |                                         |    |\n"
+                                      "|   |_________________________________________|    |\n"
+                                      "|                                                  |\n"
+                                     "\\__________________________________________________/\n"
+                                   "        \\___________________________________/\n"
+                                       "    ___________________________________________\n\n");
+                             printf("Digite o Título do chamado: ");
+                             clearBuffer();
 
 
-                        printf("Digite a descrição do chamado: ");
-                        fgets(calls.descr, MAX_200, stdin);
-                        clearBuffer();
+                             fgets(calls.title_calls, MAX_40, stdin);
+                             clearBuffer();
+
+                             printf("Digite a descrição do chamado: ");
+                             fgets(calls.descr, MAX_200, stdin);
+                             clearBuffer();
 
 
-                        printf("Digite seu nome: ");
-                        fgets(calls.author, MAX_200, stdin);
+                             printf("Digite seu nome: ");
+                             fgets(calls.author, MAX_200, stdin);
 
-                        // Formata o armazenamento dos chamados
-                        fprintf(file_calls, "ID: %i\n", id_temp);
-                        fprintf(file_calls, "Autor: %s",calls.author);
-                        fprintf(file_calls, "Status do chamado: %s\n", calls.status);
-                        fprintf(file_calls, "Tipo do chamado: %s\n", serv_internet);
-                        fprintf(file_calls, "Título: %s", calls.title_calls);
-                        fprintf(file_calls, "Descrição: %s", calls.descr );
-                        fprintf(file_calls, "Data e hora: %02d/%02d/%02d - %02d:%02d:%02d\n\n", day, month, year, hours, minutes, seconds);
-                        fprintf(file_calls, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+                             // Formata o armazenamento dos chamados
+                             fprintf(file_calls, "ID: %i\n", id_temp);
+                             fprintf(file_calls, "Autor: %s",calls.author);
+                             fprintf(file_calls, "Status do chamado: %s\n", calls.status);
+                             fprintf(file_calls, "Tipo do chamado: %s\n", serv_rede);
+                             fprintf(file_calls, "Título: %s", calls.title_calls);
+                             fprintf(file_calls, "Descrição: %s", calls.descr );
+                             fprintf(file_calls, "Data e hora: %02d/%02d/%02d - %02d:%02d:%02d\n\n", day, month, year, hours, minutes, seconds);
+                             fprintf(file_calls, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
 
 
-                      break;
 
-                      //Retorna para o menu anterior
-                      case 3:
-                      break;
+                           break;
 
-                      //Entrada inválida, tratamento de erro
-                      default:
-                      printf("Invalid Option\n");
-                      break;
-                    }
-                }
-                while (menu_option != 3);
+                           //Chamados relacionados a serviço de internet
+                           case 2:
+                             printf("Opção 2 de chamados acionado\n");
+                             printf("\n\n");
+                             printf("  ________________________________________________\n"
+                                     " /                                                \\\n"
+                                      "|    _________________________________________     |\n"
+                                      "|   |                                         |    |\n"
+                                      "|   |         ALANA'S CORPORATION             |    |\n"
+                                      "|   |                                         |    |\n"
+                                      "|   |            -CHAMADOS-                   |    |\n"
+                                      "|   |  Tipo do chamado: Serviço de Internet   |    |\n"
+                                      "|   |  Título:                                |    |\n"
+                                      "|   |  Descrição:                             |    |\n"
+                                      "|   |  Autor:                                 |    |\n"
+                                      "|   |                                         |    |\n"
+                                      "|   |                                         |    |\n"
+                                      "|   |                                         |    |\n"
+                                      "|   |                                         |    |\n"
+                                      "|   |_________________________________________|    |\n"
+                                      "|                                                  |\n"
+                                     "\\__________________________________________________/\n"
+                                   "        \\___________________________________/\n"
+                                       "    ___________________________________________\n\n");
+                             printf("Digite o Título do chamado: ");
+                             clearBuffer();
 
-          break;
 
-          //Opção 2 - Histórico de chamados
-          case 2:
-              fclose(file_calls);
-              file_calls = fopen("calls.txt", "r");
-              while (fgets(line, MAX_LINE, file_calls)) {
-                printf("%s\n",line );
-              }
-              fclose(file_calls);
-              file_calls = fopen("calls.txt", "a");
+                             fgets(calls.title_calls, MAX_40, stdin);
+                             clearBuffer();
 
-          break;
 
-          //Opção 3 - Enviar Mensagem
-          case 3:
-              printf("opção 3 - Enviar Mensagem acionado\n");
-              printf("\n\n");
-              printf("  ________________________________________________\n"
-                      " /                                                \\\n"
-                       "|    _________________________________________     |\n"
-                       "|   |                                         |    |\n"
-                       "|   |         ALANA'S CORPORATION             |    |\n"
-                       "|   |                                         |    |\n"
-                       "|   |          -MENSAGEM-FEEDBACK-            |    |\n"
-                       "|   |                                         |    |\n"
-                       "|   |                                         |    |\n"
-                       "|   |                                         |    |\n"
-                       "|   |                                         |    |\n"
-                       "|   |                                         |    |\n"
-                       "|   |                                         |    |\n"
-                       "|   |                                         |    |\n"
-                       "|   |                                         |    |\n"
-                       "|   |_________________________________________|    |\n"
-                       "|                                                  |\n"
-                      "\\__________________________________________________/\n"
-                    "        \\___________________________________/\n"
-                        "    ___________________________________________\n\n");
-              printf("Digite sua mensagem: ");
-              clearBuffer();
-              fgets(msg, 400, stdin);
-              clearBuffer();
+                             printf("Digite a descrição do chamado: ");
+                             fgets(calls.descr, MAX_200, stdin);
+                             clearBuffer();
 
-              fprintf(msg_feedback, "Autor: %s\n",calls.author);
-              fprintf(msg_feedback, "Mensagem: %s\n", msg);
-              fprintf(msg_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
 
-          break;
+                             printf("Digite seu nome: ");
+                             fgets(calls.author, MAX_200, stdin);
 
-          //Opção 4 - SAIR
-          case 4:
-          break;
+                             // Formata o armazenamento dos chamados
+                             fprintf(file_calls, "ID: %i\n", id_temp);
+                             fprintf(file_calls, "Autor: %s",calls.author);
+                             fprintf(file_calls, "Status do chamado: %s\n", calls.status);
+                             fprintf(file_calls, "Tipo do chamado: %s\n", serv_internet);
+                             fprintf(file_calls, "Título: %s", calls.title_calls);
+                             fprintf(file_calls, "Descrição: %s", calls.descr );
+                             fprintf(file_calls, "Data e hora: %02d/%02d/%02d - %02d:%02d:%02d\n\n", day, month, year, hours, minutes, seconds);
+                             fprintf(file_calls, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
 
-          default:
-            printf("\n\ninvalid input\n");
-          break;
-        }
 
-  }while(menu_option != 4); // Com a utilização do Do While, da para incorporar o tratamento de erros
+                           break;
+
+                           //Retorna para o menu anterior
+                           case 3:
+                           break;
+
+                           //Entrada inválida, tratamento de erro
+                           default:
+                           printf("Invalid Option\n");
+                           break;
+                         }
+                     }
+                     while (menu_option != 3);
+
+               break;
+
+               //Opção 2 - Histórico de chamados
+               case 2:
+                   fclose(file_calls);
+                   file_calls = fopen("calls.txt", "r");
+                   while (fgets(line, MAX_LINE, file_calls)) {
+                     printf("%s\n",line );
+                   }
+                   fclose(file_calls);
+                   file_calls = fopen("calls.txt", "a");
+
+               break;
+
+               //Opção 3 - Enviar Mensagem
+               case 3:
+                   printf("opção 3 - Enviar Mensagem acionado\n");
+                   printf("\n\n");
+                   printf("  ________________________________________________\n"
+                           " /                                                \\\n"
+                            "|    _________________________________________     |\n"
+                            "|   |                                         |    |\n"
+                            "|   |         ALANA'S CORPORATION             |    |\n"
+                            "|   |                                         |    |\n"
+                            "|   |          -MENSAGEM-FEEDBACK-            |    |\n"
+                            "|   |                                         |    |\n"
+                            "|   |                                         |    |\n"
+                            "|   |                                         |    |\n"
+                            "|   |                                         |    |\n"
+                            "|   |                                         |    |\n"
+                            "|   |                                         |    |\n"
+                            "|   |                                         |    |\n"
+                            "|   |                                         |    |\n"
+                            "|   |_________________________________________|    |\n"
+                            "|                                                  |\n"
+                           "\\__________________________________________________/\n"
+                         "        \\___________________________________/\n"
+                             "    ___________________________________________\n\n");
+                   printf("Digite sua mensagem: ");
+                   clearBuffer();
+                   fgets(msg, 400, stdin);
+                   clearBuffer();
+
+                   fprintf(msg_feedback, "Autor: %s\n",calls.author);
+                   fprintf(msg_feedback, "Mensagem: %s\n", msg);
+                   fprintf(msg_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+
+               break;
+
+               //Opção 4 - SAIR
+               case 4:
+                option_access = 1;
+               break;
+
+               default:
+                 printf("\n\ninvalid input\n");
+               break;
+             }
+
+       }while(menu_option != 4); // Com a utilização do Do While, da para incorporar o tratamento de erros
+
+
+
+      break;
+
+      default:
+        printf("\n\n Login ou senha incorretos\n\n");
+      break;
+    }
+  }
 
 
 
