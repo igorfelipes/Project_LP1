@@ -4,11 +4,33 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdio_ext.h>
+//#include <stdio_ext.h>
 #include <string.h>
 
 #define BUFFER_SIZE 1000
 #define MAXCHAR 100
+
+
+void tostring(char str[], int num) //Verificar essa função, converte de int para string
+{
+    int i, rem, len = 0, n;
+
+    n = num;
+    while (n != 0)
+    {
+        len++;
+        n /= 10;
+    }
+    for (i = 0; i < len; i++)
+    {
+        rem = num % 10;
+        num = num / 10;
+        str[len - (i + 1)] = rem + '0';
+    }
+    str[len] = '\0';
+}
+
+
 
 int callNumbers(){
 
@@ -20,34 +42,41 @@ int callNumbers(){
 
   if (file_calls){
 
-    while (fscanf(file_calls, " %1023s", txt) != EOF)
+    while (fscanf(file_calls, " %99s", txt) != EOF)
     {
 
       if(strcmp("qtd_de_chamados:", txt) == 0 ){                      //verifica que leu a palavra Quantidade de chamados
            fscanf(file_calls, " %1023s", txt);                  //le a proxima coisa, que deve ser um numero
            qtd = atoi(txt);                              //passa pra inteiro
-           //printf("Quantidade de chamados: %d\n", qtd);                              //printa ele
+           printf("Quantidade de chamados: %d\n", qtd);                              //printa ele
       }
     }
     fclose(file_calls);
+    return qtd;
   }
-  return qtd;
+  else{
+    return 0;
+  }
 }
 
 
-int main(){
+void replaceCallNumbers(){
 
     FILE * file_calls;
     FILE * file_temp;
     char path[100];
 
     char buffer[BUFFER_SIZE];
-    char newline[BUFFER_SIZE] = "qtd_de_chamados: 0\0";
-    int count, n, line = 8;
+    char newline[BUFFER_SIZE] = "qtd_de_chamados: 0\n";
+    char temp_char[10];//variavel temporaria de char
+    int count, n, line = 8, temp;
+    temp = callNumbers();
+    printf("%d\n",temp); // até aqui ta dando certo
+    tostring(temp_char, temp);   //VERIFICAR AQUI - FUI DORMIR
+    printf("Numero convertido: %c\n", temp_char[0]);
+    //newline[20] = itoa(temp, temp_char);
 
-    newline[19] = callNumbers() + 1;
-
-
+    printf("deu certo\n");
 
     /* Remove extra new line character from stdin */
     //fpurge(stdin);
@@ -68,7 +97,7 @@ int main(){
         /* Unable to open file hence exit */
         printf("\nFile couldn't be opened\n");
         printf("Please check whether file exists and you have read/write privilege.\n");
-        return 0;
+        return;
     }
 
 
@@ -102,5 +131,11 @@ int main(){
 
     printf("\nSuccessfully replaced '%d' line with '%s'.", line, newline);
 
-    return 0;
+}
+
+
+int main(){
+  replaceCallNumbers();
+
+  return 0;
 }
