@@ -16,20 +16,20 @@ int main()
     char path[100];
 
     char buffer[BUFFER_SIZE];
-    char newline[BUFFER_SIZE];
+    char newline[BUFFER_SIZE] = "Status do chamado:";
     int line, count;
 
-
+    newline[19] = '0';
 
 
     printf("Enter line number to replace: ");
     scanf("%d", &line);
 
     /* Remove extra new line character from stdin */
-    fpurge(stdin);
+    setbuf(stdin, NULL);
 
-    printf("Replace '%d' line with: ", line);
-    fgets(newline, BUFFER_SIZE, stdin);
+  //  printf("Replace '%d' line with: ", line);
+  //  fgets(newline, BUFFER_SIZE, stdin);
 
 
     /*  Open all required files */
