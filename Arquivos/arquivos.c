@@ -1,10 +1,13 @@
+#include <stdio_ext.h> // Se estiver utilizando sistemas Linux habilite essa biblioteca, caso não esteja comente essa linha de código
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
 #include <string.h>
+#include <time.h>
 
 void clearBuffer(){
-  fpurge(stdin); //Limpeza de buffer em Sistemas Linux
-  /*setbuf(stdin, NULL); // Se estiver utilizando Windows, comente a linha de código a cima e utilize essa */
+  //fpurge(stdin); //Limpeza de buffer em Sistemas Linux
+  setbuf(stdin, NULL); // Se estiver utilizando Windows, comente a linha de código a cima e utilize essa */
 }
 
 int main(){
@@ -18,10 +21,10 @@ int main(){
   }
   char descricao[20] = "ID:";
   int count, count_line, n;
-  char line[1000], teste[2], *lp;
+  char line[1000], teste[2], temp, *lp;
 
 clearBuffer();
-while (fgets(line,1000, storage_call)!= NULL) {
+while (fgets(line, 1000, storage_call)!= NULL) {
     //
     count_line++;
      /*Lê o arquivo até que não tenha mais nada para ler, se utilizar apenas o fgets,
@@ -34,9 +37,10 @@ while (fgets(line,1000, storage_call)!= NULL) {
        for (lp = line; *lp != '\n' && (lp - line) < 1000; lp++) {
 
          // If encounter colon and sccanf reads at least 1 integer..
-         if (*lp == ':' && sscanf(lp + 1, "%c", teste) == 1) {
+         if (*lp == ':' && sscanf(lp + 1, "%1023s", teste) == 1) {
+
            n = atoi(teste);
-           fprintf(stdout, "%d\n", n);
+           fprintf(stdout, "%c\n", teste[1]);
           break;
       }
     }
@@ -50,10 +54,6 @@ while (fgets(line,1000, storage_call)!= NULL) {
 
   fclose(storage_call);
 
-
-//  fprintf(storage_call, "ID_Client:  \n");
-//  fprintf(storage_call, "ID_Client:  \n");
-//fclose(storage_call);
 
 
 

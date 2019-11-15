@@ -112,6 +112,7 @@ int main(){
 
 
   strcpy(calls.status, "Em aberto "); // Todos os chamados inicializão Em aberto
+
   strcpy(managers.login, "admin");
   strcpy(managers.password, "admin");
   strcpy(customers.login, "cliente\n");
@@ -300,7 +301,7 @@ int main(){
                              fprintf(file_calls, "Título: %s", calls.title_calls);
                              fprintf(file_calls, "Descrição: %s", calls.descr );
                              fprintf(file_calls, "Data e hora: %02d/%02d/%02d - %02d:%02d:%02d\n\n", day, month, year, hours, minutes, seconds);
-                             fprintf(file_calls, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+                             fprintf(file_calls, "-----------------------------------------------------------------------------------------------------------------------\n" );
 
 
 
@@ -354,7 +355,7 @@ int main(){
                              fprintf(file_calls, "Título: %s", calls.title_calls);
                              fprintf(file_calls, "Descrição: %s", calls.descr );
                              fprintf(file_calls, "Data e hora: %02d/%02d/%02d - %02d:%02d:%02d\n\n", day, month, year, hours, minutes, seconds);
-                             fprintf(file_calls, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+                             fprintf(file_calls, "-----------------------------------------------------------------------------------------------------------------------\n" );
 
 
                            break;

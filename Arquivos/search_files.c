@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdio_ext.h>
 
 #define BUFFER_SIZE 1000
 
@@ -26,7 +27,9 @@ int main()
     scanf("%d", &line);
 
     /* Remove extra new line character from stdin */
-    fpurge(stdin);
+    //fpurge(stdin);
+    setbuf(stdin, NULL);
+
 
     printf("Replace '%d' line with: ", line);
     fgets(newline, BUFFER_SIZE, stdin);
