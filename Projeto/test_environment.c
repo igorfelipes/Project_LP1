@@ -38,13 +38,13 @@ typedef struct calls{
 // Estrutura para armazenar os usuários cadastrados no Sistema
 
 typedef struct managers{
-  char login[10];
-  char password[10];
+    char login[10];
+    char password[10];
 }Managers;
 
 typedef struct customers{
-  char login[10];
-  char password[10];
+    char login[10];
+    char password[10];
 }Customers;
 
 
@@ -113,8 +113,8 @@ int main(){
 
   strcpy(calls.status, "Em aberto "); // Todos os chamados inicializão Em aberto
 
-  strcpy(managers.login, "admin");
-  strcpy(managers.password, "admin");
+  strcpy(managers.login, "admin\n");
+  strcpy(managers.password, "admin\n");
   strcpy(customers.login, "cliente\n");
   strcpy(customers.password, "1234\n");
 
@@ -185,9 +185,12 @@ int main(){
     fgets(password, 10, stdin);
 
     if((strcmp(login, customers.login) == 0) && (strcmp(password, customers.password) == 0)){
-    option_access = 1;
-    printf("Deu certo\n");}
-    else{option_access = 0; printf("deu errado\n");}
+      option_access = 1;
+      printf("Deu certo\n");}
+    else if((strcmp(login, managers.login) == 0) && (strcmp(password, managers.password) == 0)){
+      option_access = 2;
+    }else
+      option_access = 0;
 
 
     switch (option_access) {
@@ -436,6 +439,35 @@ int main(){
 
 
       break;
+
+      case 2:
+        printf("Deu certo: login adm\n");
+        do{
+          printf("  ________________________________________________\n"
+                  " /                                                \\\n"
+                   "|    _________________________________________     |\n"
+                   "|   |                                         |    |\n"
+                   "|   |          ALANA'S CORPORATION            |    |\n"
+                   "|   |                                         |    |\n"
+                   "|   |  1-Visualizar Chamados                  |    |\n"
+                   "|   |  2-Mudar Status dos chamados            |    |\n"
+                   "|   |  3-Gerar relatorio                      |    |\n"
+                   "|   |  4-Sair                                 |    |\n"
+                   "|   |                                         |    |\n"
+                   "|   |                                         |    |\n"
+                   "|   |                                         |    |\n"
+                   "|   |                                         |    |\n"
+                   "|   |                                         |    |\n"
+                   "|   |_________________________________________|    |\n"
+                   "|                                                  |\n"
+                  "\\__________________________________________________/\n"
+                "        \\___________________________________/\n"
+                    "    ___________________________________________\n\n");
+            printf("Insira sua opção: ");
+            get_option();
+          }while(menu_option != 4);
+      break;
+
 
       default:
         printf("\n\n Login ou senha incorretos\n\n");

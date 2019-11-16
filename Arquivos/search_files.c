@@ -11,7 +11,7 @@
 #define MAXCHAR 100
 
 
-
+/* Função de conversão de int para String */
 void tostring(char str[], int num)
 {
     int i, rem, len = 0, n;
@@ -32,7 +32,7 @@ void tostring(char str[], int num)
 }
 
 
-
+/* Retorna o número de chamados do sistema*/
 int callNumbers(){
 
   FILE *file_calls;
@@ -71,37 +71,31 @@ void replaceCallNumbers(){
     char buffer[BUFFER_SIZE];
     char newline[BUFFER_SIZE] = "qtd_de_chamados: 0\n";
     //char temp_char[10];//variavel temporaria de char
-    char str[10];
+    char temp_str[10];
     int count, n, line = 8, temp;
     temp = callNumbers() + 1;
     printf("retorno de callNumbers: %d\n",temp); // até aqui ta dando certo
-    tostring(str, temp);   //VERIFICAR AQUI - FUI DORMIR
-    (str[1] ==NULL)? printf("Deu certo a comparação de Nulo\n"):printf("Numero convertido: %c\n", str[0]); // até aqui ta dando certo
-    newline[17] = str[0];
-    newline[18] = str[1];
+    tostring(temp_str, temp);   //VERIFICAR AQUI - FUI DORMIR
+    (temp_str[1] ==NULL)? printf("Deu certo a comparação de Nulo\n"):printf("Numero convertido: %c\n", temp_str[0]); // até aqui ta dando certo
+    newline[17] = temp_str[0];
+    newline[18] = temp_str[1];
+    newline[19] = '\n';
+
     printf("%s\n",newline);
-    //newline[20] = itoa(temp, temp_char);
+
 
     printf("deu certo\n");
 
-    /* Remove extra new line character from stdin */
-
-    //fpurge(stdin);
-    //setbuf(stdin, NULL);
 
 
-  //  printf("Replace '%d' line with: ", line);
-  //  fgets(newline, BUFFER_SIZE, stdin);
-
-
-    /*  Open all required files */
-    file_calls  = fopen("test_storage.txt", "r");
+    /* files */
+    file_calls  = fopen("search_files.txt", "r");
     file_temp = fopen("replace_temp.txt", "w");
 
-    /* fopen() return NULL if unable to open file in given mode. */
+
+    /* Verifica a abertura dos arquivos */
     if (file_calls == NULL || file_temp == NULL)
     {
-        /* Unable to open file hence exit */
         printf("\nFile couldn't be opened\n");
         printf("Please check whether file exists and you have read/write privilege.\n");
         return;
@@ -109,15 +103,15 @@ void replaceCallNumbers(){
 
 
     /*
-     * Read line from source file and write to destination
-     * file after replacing given line.
+     *  Lê a linha do arquivo fonte e escreve para o destino
+     * do arquivo e modifica a linha.
      */
     count = 0;
     while ((fgets(buffer, BUFFER_SIZE, file_calls)) != NULL)
     {
         count++;
 
-        /* If current line is line to replace */
+        /* verifica se a linha atual é a linha que será modificada*/
         if (count == line)
             fputs(newline, file_temp);
         else
@@ -125,15 +119,15 @@ void replaceCallNumbers(){
     }
 
 
-    /* Close all files to release resource */
+    /* Fecha todos os arquivos e salva as mudanças */
     fclose(file_calls);
     fclose(file_temp);
 
 
-    /* Delete original source file */
+    /* Deleta o arquivo original*/
     remove("search_files.txt");
 
-    /* Rename temporary file as original file */
+    /* Renomeia o temporario para o original*/
     rename("replace_temp.txt", "search_files.txt");
 
     printf("\nSuccessfully replaced '%d' line with '%s'.", line, newline);
