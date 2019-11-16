@@ -11,7 +11,8 @@
 #define MAXCHAR 100
 
 
-void tostring(char str[], int num) //Verificar essa função, converte de int para string
+
+void tostring(char str[], int num)
 {
     int i, rem, len = 0, n;
 
@@ -68,12 +69,13 @@ void replaceCallNumbers(){
 
     char buffer[BUFFER_SIZE];
     char newline[BUFFER_SIZE] = "qtd_de_chamados: 0\n";
-    char temp_char[10];//variavel temporaria de char
+    //char temp_char[10];//variavel temporaria de char
+    char str[10];
     int count, n, line = 8, temp;
     temp = callNumbers();
-    printf("%d\n",temp); // até aqui ta dando certo
-    tostring(temp_char, temp);   //VERIFICAR AQUI - FUI DORMIR
-    printf("Numero convertido: %c\n", temp_char[0]);
+    printf("retorno de callNumbers: %d\n",temp); // até aqui ta dando certo
+    tostring(str, temp);   //VERIFICAR AQUI - FUI DORMIR
+    (str[1] == )? printf("Deu certo a comparação de Nulo\n"):printf("Numero convertido: %c\n", str[1]); // até aqui ta dando certo
     //newline[20] = itoa(temp, temp_char);
 
     printf("deu certo\n");
