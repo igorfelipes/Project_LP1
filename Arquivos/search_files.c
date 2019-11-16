@@ -73,10 +73,13 @@ void replaceCallNumbers(){
     //char temp_char[10];//variavel temporaria de char
     char str[10];
     int count, n, line = 8, temp;
-    temp = callNumbers();
+    temp = callNumbers() + 1;
     printf("retorno de callNumbers: %d\n",temp); // até aqui ta dando certo
     tostring(str, temp);   //VERIFICAR AQUI - FUI DORMIR
-    (str[1] ==NULL)? printf("Deu certo a comparação de Nulo\n"):printf("Numero convertido: %c\n", str[1]); // até aqui ta dando certo
+    (str[1] ==NULL)? printf("Deu certo a comparação de Nulo\n"):printf("Numero convertido: %c\n", str[0]); // até aqui ta dando certo
+    newline[17] = str[0];
+    newline[18] = str[1];
+    printf("%s\n",newline);
     //newline[20] = itoa(temp, temp_char);
 
     printf("deu certo\n");
@@ -84,7 +87,7 @@ void replaceCallNumbers(){
     /* Remove extra new line character from stdin */
 
     //fpurge(stdin);
-    setbuf(stdin, NULL);
+    //setbuf(stdin, NULL);
 
 
   //  printf("Replace '%d' line with: ", line);
