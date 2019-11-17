@@ -39,7 +39,7 @@ int callNumbers(){
   char txt[MAXCHAR];
   int qtd;
 
-  file_calls = fopen("search_files.txt", "r");
+  file_calls = fopen("calls.txt", "r");
 
   if (file_calls){
 
@@ -61,7 +61,7 @@ int callNumbers(){
 }
 
 
-
+int temp;
 void replaceCallNumbers(){
 
     FILE * file_calls;
@@ -72,14 +72,23 @@ void replaceCallNumbers(){
     char newline[BUFFER_SIZE] = "qtd_de_chamados: 0\n";
     //char temp_char[10];//variavel temporaria de char
     char temp_str[10];
-    int count, n, line = 8, temp;
+    int count, n, line = 8;
     temp = callNumbers() + 1;
     printf("retorno de callNumbers: %d\n",temp); // até aqui ta dando certo
     tostring(temp_str, temp);   //VERIFICAR AQUI - FUI DORMIR
-    (temp_str[1] ==NULL)? printf("Deu certo a comparação de Nulo\n"):printf("Numero convertido: %c\n", temp_str[0]); // até aqui ta dando certo
+
+    if(temp_str[1] == NULL){
+      printf("Deu certo a comparação de Nulo\n");
+      temp_str[1] = '\n';
+      newline[19] = NULL;
+    }
+    else{
+      newline[19] = '\n';
+    }
+    printf("Numero convertido: %c\n", temp_str[0]);
     newline[17] = temp_str[0];
     newline[18] = temp_str[1];
-    newline[19] = '\n';
+
 
     printf("%s\n",newline);
 
@@ -89,7 +98,7 @@ void replaceCallNumbers(){
 
 
     /* files */
-    file_calls  = fopen("search_files.txt", "r");
+    file_calls  = fopen("calls.txt", "r");
     file_temp = fopen("replace_temp.txt", "w");
 
 
@@ -125,10 +134,10 @@ void replaceCallNumbers(){
 
 
     /* Deleta o arquivo original*/
-    remove("search_files.txt");
+    remove("calls.txt");
 
     /* Renomeia o temporario para o original*/
-    rename("replace_temp.txt", "search_files.txt");
+    rename("replace_temp.txt", "calls.txt");
 
     printf("\nSuccessfully replaced '%d' line with '%s'.", line, newline);
 
@@ -137,6 +146,7 @@ void replaceCallNumbers(){
 
 int main(){
   replaceCallNumbers();
+  //printf("%d\n", temp );
 
   return 0;
 }
