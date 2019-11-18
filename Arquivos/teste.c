@@ -4,24 +4,36 @@
 
 #define MAXCHAR 100
 
-int main(void)
-{
-  FILE *input;
+int callNumbers(){
+
+  FILE *file_calls;
   char txt[MAXCHAR];
+  int qtd, cont = 1, ids[50];
 
-  input = fopen("search_files.txt", "r");
-  if (input)
-  {
+  file_calls = fopen("calls.txt", "r");
 
-    while (fscanf(input, " %1023s", txt) != EOF)
+  if (file_calls){
+
+    while (fscanf(file_calls, " %99s", txt) != EOF)
     {
-      if(strcmp("Quantidade de chamados: ", txt) == 0 ){                      //verifica que leu a palavra ID
-           fscanf(input, " %1023s", txt );                  //le a proxima coisa, que deve ser um numero
-           int id = atoi(txt);                              //passa pra inteiro
-           printf("%d\n", id);                              //printa ele
+
+      if(strcmp("ID:", txt) == 0 ){                      //verifica que leu a palavra Quantidade de chamados
+            cont +=9;
+           fscanf(file_calls, " %1023s", txt);                  //le a proxima coisa, que deve ser um numero
+           qtd = atoi(txt);                              //passa pra inteiro
+           printf("ID: %d - linha %d\n", qtd, cont);                              //printa ele
       }
     }
-    fclose(input);
+    fclose(file_calls);
+    return qtd;
   }
+  else{
+    return 0;
+  }
+}
+
+int main(){
+
+  callNumbers();
   return 0;
 }
