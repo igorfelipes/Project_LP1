@@ -40,6 +40,7 @@ typedef struct calls{
 typedef struct managers{
     char login[10];
     char password[10];
+    char name[10];
 }Managers;
 
 typedef struct customers{
@@ -363,6 +364,8 @@ int main(){
 
   strcpy(calls.author, "Jose da Silva\n");
 
+  strcpy(managers.name, "Igor\n");
+
   strcpy(managers.login, "admin\n");
   strcpy(managers.password, "admin\n");
   strcpy(customers.login, "cliente\n");
@@ -456,8 +459,8 @@ int main(){
                   "|   |  1-Criar Chamado                        |    |\n"
                   "|   |  2-Histórico de chamados                |    |\n"
                   "|   |  3-Enviar Mensagem                      |    |\n"
-                  "|   |  4-Sair                                 |    |\n"
-                  "|   |                                         |    |\n"
+                  "|   |  4-Mensagens Recebidas                  |    |\n"
+                  "|   |  5-Sair                                 |    |\n"
                   "|   |                                         |    |\n"
                   "|   |                                         |    |\n"
                   "|   |                                         |    |\n"
@@ -680,8 +683,15 @@ int main(){
 
                break;
 
-               //Opção 4 - SAIR
                case 4:
+                msg_feedback = fopen("managers_msg.txt", "r");
+                while (fgets(line, MAX_LINE, msg_feedback)) {
+                  printf("%s\n",line );
+                }
+                fclose(msg_feedback);
+               break;
+
+               case 5:
                 option_access = 1;
                break;
 
@@ -690,7 +700,7 @@ int main(){
                break;
              }
 
-       }while(menu_option != 4); // Com a utilização do Do While, da para incorporar o tratamento de erros
+       }while(menu_option != 5); // Com a utilização do Do While, da para incorporar o tratamento de erros
 
 
 
@@ -799,7 +809,38 @@ int main(){
               break;
 
               case 4:
-                printf("Opção 4\n");
+                printf("opção 4 - Enviar Mensagem acionado\n");
+                printf("\n\n");
+                printf("  ________________________________________________\n"
+                        " /                                                \\\n"
+                         "|    _________________________________________     |\n"
+                         "|   |                                         |    |\n"
+                         "|   |         ALANA'S CORPORATION             |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |          -MENSAGEM-FEEDBACK-            |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |_________________________________________|    |\n"
+                         "|                                                  |\n"
+                        "\\__________________________________________________/\n"
+                      "        \\___________________________________/\n"
+                          "    ___________________________________________\n\n");
+                printf("Digite sua mensagem: ");
+                clearBuffer();
+                fgets(msg, 400, stdin);
+                clearBuffer();
+
+                msg_feedback = fopen("managers_msg.txt", "a");
+                fprintf(msg_feedback, "Autor: %s\n", managers.name);
+                fprintf(msg_feedback, "Mensagem: %s\n", msg);
+                fprintf(msg_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+
               break;
 
               case 5:
