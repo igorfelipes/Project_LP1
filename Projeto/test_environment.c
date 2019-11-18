@@ -50,7 +50,7 @@ typedef struct customers{
 
 
 // Variáveis globais
-int id_call; //recebe o id de cada chamado, que é gerado pela função callNumbers()(+1)
+int id_call; //recebe o id de cada chamado, que é gerado pela função callNumbers(+1)
 int menu_option; //recebe a escolha do usuário após a conversão de string para int
 char msg[400]; //variável para guardar a mensagem do usuario
 char menu_option_str[MAX_20]; // guarda a opção escolhida pelo usuário
@@ -247,7 +247,9 @@ int main(){
   year = info_time->tm_year + 1900; // retorn a quantidade de anos depois de 1900
 
 
-  strcpy(calls.status, "Em aberto "); // Todos os chamados inicializão Em aberto
+  strcpy(calls.status, "0"); // Todos os chamados inicializão Em aberto
+
+  strcpy(calls.author, "Jose da Silva\n");
 
   strcpy(managers.login, "admin\n");
   strcpy(managers.password, "admin\n");
@@ -429,8 +431,8 @@ int main(){
                              clearBuffer();
 
 
-                             printf("Digite seu nome: ");
-                             fgets(calls.author, MAX_200, stdin);
+                             //printf("Digite seu nome: ");
+                             //fgets(calls.author, MAX_200, stdin);
 
                              // Formata o armazenamento dos chamados
                              replaceCallNumbers();
@@ -486,8 +488,8 @@ int main(){
                              clearBuffer();
 
 
-                             printf("Digite seu nome: ");
-                             fgets(calls.author, MAX_200, stdin);
+                            // printf("Digite seu nome: ");
+                             //fgets(calls.author, MAX_200, stdin);
 
                              // Formata o armazenamento dos chamados
                              replaceCallNumbers();
@@ -594,8 +596,8 @@ int main(){
                    "|   |  1-Visualizar Chamados                  |    |\n"
                    "|   |  2-Mudar Status dos chamados            |    |\n"
                    "|   |  3-Gerar relatorio                      |    |\n"
-                   "|   |  4-Sair                                 |    |\n"
-                   "|   |                                         |    |\n"
+                   "|   |  4-Enviar mensagem                      |    |\n"
+                   "|   |  5-Sair                                 |    |\n"
                    "|   |                                         |    |\n"
                    "|   |                                         |    |\n"
                    "|   |                                         |    |\n"
@@ -607,7 +609,7 @@ int main(){
                     "    ___________________________________________\n\n");
             printf("Insira sua opção: ");
             get_option();
-          }while(menu_option != 4);
+          }while(menu_option != 5);
       break;
 
 
