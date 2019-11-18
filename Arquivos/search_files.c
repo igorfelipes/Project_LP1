@@ -77,10 +77,10 @@ void replaceCallNumbers(){
     printf("retorno de callNumbers: %d\n",temp); // até aqui ta dando certo
     tostring(temp_str, temp);   //VERIFICAR AQUI - FUI DORMIR
 
-    if(temp_str[1] == NULL){
+    if(!(temp_str[1])) {
       printf("Deu certo a comparação de Nulo\n");
       temp_str[1] = '\n';
-      newline[19] = NULL;
+      newline[19] = 0;
     }
     else{
       newline[19] = '\n';

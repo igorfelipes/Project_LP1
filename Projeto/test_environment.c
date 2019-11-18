@@ -51,6 +51,8 @@ typedef struct customers{
 
 // Variáveis globais
 int id_call; //recebe o id de cada chamado, que é gerado pela função callNumbers(+1)
+int id_search_temp; // ID do chamado que deseja procurar
+int new_status; // Status que deverá substituir
 int menu_option; //recebe a escolha do usuário após a conversão de string para int
 char msg[400]; //variável para guardar a mensagem do usuario
 char menu_option_str[MAX_20]; // guarda a opção escolhida pelo usuário
@@ -156,10 +158,10 @@ void replaceCallNumbers(){
     printf("retorno de callNumbers: %d\n",id_call); // até aqui ta dando certo
     tostring(temp_str, id_call);   //VERIFICAR AQUI - FUI DORMIR
 
-    if(temp_str[1] == NULL){
+    if(!(temp_str[1])){
       printf("Deu certo a comparação de Nulo\n");
       temp_str[1] = '\n';
-      newline[19] = NULL;
+      newline[19] = 0;
     }
     else{
       newline[19] = '\n';
@@ -221,6 +223,110 @@ void replaceCallNumbers(){
     printf("\nSuccessfully replaced '%d' line with '%s'.", line, newline);
 
 }
+
+//Retorna a linha do ID do chamado procurado
+int searchCall(int search_id){
+
+  FILE *file_calls;
+  char txt[MAXCHAR];
+  int id, cont = 1;
+  int line_id;
+
+  file_calls = fopen("calls.txt", "r");
+
+  if (file_calls){
+
+    while (fscanf(file_calls, " %99s", txt) != EOF) //Verifica o arquivo completo
+    {
+
+      if(strcmp("ID:", txt) == 0 ){                      //Verifica os ID's dos chamados
+            cont +=9;                                    //contagem da linha específica de cada id
+           fscanf(file_calls, " %1023s", txt);                  //le a numeração do ID
+           id = atoi(txt);                              //Converte o id para inteiro
+
+           if(search_id == id){ //Verifica se o id procurado está contido no arquivo
+             line_id = cont;   // guarda a linha específica do id procurado
+             printf("ID: %d achado - linha %d\n", id, line_id);
+           }
+      }
+    }
+    fclose(file_calls);
+    return line_id;
+  }
+  else{
+    return 0;
+  }
+}
+
+
+
+//Modifica o status do chamado
+void replaceStatus(int new_status){
+
+    FILE * file_calls;
+    FILE * file_temp;
+
+    //Variáveis de buffer para mundaça de linha
+    char buffer[BUFFER_SIZE];
+    char newline[BUFFER_SIZE] = "Status do chamado: 0\n";
+
+
+    char temp_str[2]; //variável temporaria que receberá a conversão do status de inteiro para string
+    int count, line;
+    line = searchCall(id_search_temp) + 2; //linha do id do chamado
+    tostring(temp_str, new_status); // função de conversão para string
+
+    newline[19] = temp_str[0]; //modificando o status do chamado
+    newline[20] = '\n';
+
+
+
+    /* files */
+    file_calls  = fopen("calls.txt", "r");
+    file_temp = fopen("replace_temp.txt", "w");
+
+
+    /* Verifica a abertura dos arquivos */
+    if (file_calls == NULL || file_temp == NULL)
+    {
+        printf("\nFile couldn't be opened\n");
+        printf("Please check whether file exists and you have read/write privilege.\n");
+        return;
+    }
+
+
+    /*
+     *  Lê a linha do arquivo fonte e escreve para o destino
+     * do arquivo e modifica a linha.
+     */
+    count = 0;
+    while ((fgets(buffer, BUFFER_SIZE, file_calls)) != NULL)
+    {
+        count++;
+
+        /* verifica se a linha atual é a linha que será modificada*/
+        if (count == line)
+            fputs(newline, file_temp);
+        else
+            fputs(buffer, file_temp);
+    }
+
+
+    /* Fecha todos os arquivos e salva as mudanças */
+    fclose(file_calls);
+    fclose(file_temp);
+
+
+    /* Deleta o arquivo original*/
+    remove("calls.txt");
+
+    /* Renomeia o temporario para o original*/
+    rename("replace_temp.txt", "calls.txt");
+
+    printf("\nSuccessfully replaced '%d' line with '%s'.", line, newline);
+
+}
+
 
 
 // Função principal
