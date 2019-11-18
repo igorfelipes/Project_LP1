@@ -5,5 +5,32 @@
  |                                          HISTÓRICO DE CHAMADOS                                                  |
  -------------------------------------------------------------------------------------------------------------------
 
-qtd_de_chamados: 0
+qtd_de_chamados: 3
 ----------------------------------------------------------------------------------------------------------------------
+ID: 1
+Autor: Jose da Silva
+Status do chamado: 0
+Tipo do chamado: Serviço de rede
+Título: titulo 1
+Descrição: descricao fichinha
+Data e hora: 18/11/2019 - 15:47:55
+
+-----------------------------------------------------------------------------------------------------------------------
+ID: 2
+Autor: Jose da Silva
+Status do chamado: 1
+Tipo do chamado: Serviço de Internet
+Título: titulo 2
+Descrição: descricao
+Data e hora: 18/11/2019 - 15:47:55
+
+-----------------------------------------------------------------------------------------------------------------------
+ID: 3
+Autor: Jose da Silva
+Status do chamado: 0
+Tipo do chamado: Serviço de rede
+Título: mais um 
+Descrição: descricao
+Data e hora: 18/11/2019 - 15:47:55
+
+-----------------------------------------------------------------------------------------------------------------------

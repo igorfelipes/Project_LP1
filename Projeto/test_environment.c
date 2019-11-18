@@ -54,6 +54,7 @@ int id_call; //recebe o id de cada chamado, que é gerado pela função callNumb
 int id_search_temp; // ID do chamado que deseja procurar
 int new_status; // Status que deverá substituir
 int menu_option; //recebe a escolha do usuário após a conversão de string para int
+char temp[3];
 char msg[400]; //variável para guardar a mensagem do usuario
 char menu_option_str[MAX_20]; // guarda a opção escolhida pelo usuário
 char line[MAX_LINE]; //recebe cada linha para a impressao de historico de chamados
@@ -230,7 +231,7 @@ int searchCall(int search_id){
   FILE *file_calls;
   char txt[MAXCHAR];
   int id, cont = 1;
-  int line_id;
+  int line_id = 0, search = 0;
 
   file_calls = fopen("calls.txt", "r");
 
@@ -247,9 +248,11 @@ int searchCall(int search_id){
            if(search_id == id){ //Verifica se o id procurado está contido no arquivo
              line_id = cont;   // guarda a linha específica do id procurado
              printf("ID: %d achado - linha %d\n", id, line_id);
+             search = 1;
            }
       }
     }
+    (search == 0) ? printf("ID não encontrado\n"): printf("ID Encontrado\n");
     fclose(file_calls);
     return line_id;
   }
@@ -279,6 +282,9 @@ void replaceStatus(int new_status){
     newline[19] = temp_str[0]; //modificando o status do chamado
     newline[20] = '\n';
 
+    if(line == 2){
+      return;
+    }
 
 
     /* files */
@@ -715,6 +721,95 @@ int main(){
                     "    ___________________________________________\n\n");
             printf("Insira sua opção: ");
             get_option();
+            switch (menu_option) {
+
+              case 1:
+                do {
+                printf("Opção 1\n");
+                printf("  ________________________________________________\n"
+                        " /                                                \\\n"
+                         "|    _________________________________________     |\n"
+                         "|   |                                         |    |\n"
+                         "|   |          ALANA'S CORPORATION            |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |  1-Visualizar Chamados Abertos          |    |\n"
+                         "|   |  2-Visualizar Chamados Fechados         |    |\n"
+                         "|   |  3-Voltar                               |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |_________________________________________|    |\n"
+                         "|                                                  |\n"
+                        "\\__________________________________________________/\n"
+                      "        \\___________________________________/\n"
+                          "    ___________________________________________\n\n");
+                  printf("Insira sua opção: ");
+                  get_option();
+                }while(menu_option != 3);
+              break;
+
+
+              case 2:
+                printf("Opção 2\n");
+
+                printf("  ________________________________________________\n"
+                        " /                                                \\\n"
+                         "|    _________________________________________     |\n"
+                         "|   |                                         |    |\n"
+                         "|   |          ALANA'S CORPORATION            |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |       Mudar de Status dos chamados      |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |  ID do chamado:                         |    |\n"
+                         "|   |  Novo status:                           |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |                                         |    |\n"
+                         "|   |_________________________________________|    |\n"
+                         "|                                                  |\n"
+                        "\\__________________________________________________/\n"
+                      "        \\___________________________________/\n"
+                          "    ___________________________________________\n\n");
+                  printf("Insira o ID do chamado que deseja modifcar: ");
+                  clearBuffer();
+                  fgets(temp, 3, stdin); // joga a entrada do usuario na variavel temporaria
+                  id_search_temp = atoi(temp); //converte a entrada do usuario para inteiro e poder ser procurado o id na função searchCall
+                  printf("Insira o codigo do novo status: \n");
+                  clearBuffer();
+                  fgets(temp, 3, stdin);
+                  new_status = atoi(temp); //converte a entrada do usuario para inteiro e poder ser procurado o id na função replaceStatus
+                  searchCall(id_search_temp);
+                  replaceStatus(new_status);
+
+              break;
+
+
+              case 3:
+                printf("Opção 3\n");
+                file_calls = fopen("calls.txt", "r");
+                while (fgets(line, MAX_LINE, file_calls)) {
+                  printf("%s\n",line );
+                }
+                fclose(file_calls);
+              break;
+
+              case 4:
+                printf("Opção 4\n");
+              break;
+
+              case 5:
+                printf("Opção 5\n");
+              break;
+
+              default:
+                printf("Invalid input\n");
+              break;
+            }
           }while(menu_option != 5);
       break;
 
