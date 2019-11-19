@@ -770,6 +770,7 @@ int main(){
                   while (fgets(line, MAX_LINE, msg_feedback)) {
                     printf("%s\n",line );
                   }
+                  printf("\n\nVocê não possui mais mensagens na caixa de entrada\n\n");
                   fclose(msg_feedback);
                  break;
 
@@ -804,8 +805,8 @@ int main(){
                    "|   |  2-Mudar Status dos chamados            |    |\n"
                    "|   |  3-Gerar relatorio                      |    |\n"
                    "|   |  4-Enviar mensagem                      |    |\n"
-                   "|   |  5-Sair                                 |    |\n"
-                   "|   |                                         |    |\n"
+                   "|   |  5-Mensagens recebidas                  |    |\n"
+                   "|   |  6-Sair                                 |    |\n"
                    "|   |                                         |    |\n"
                    "|   |                                         |    |\n"
                    "|   |                                         |    |\n"
@@ -952,8 +953,19 @@ int main(){
 
               break;
 
-              // Sair dos sistema
+
               case 5:
+              msg_feedback = fopen("msg_feedback.txt", "r");
+              while (fgets(line, MAX_LINE, msg_feedback)) {
+                printf("%s\n",line );
+              }
+              printf("\n\nVocê não possui mais mensagens na caixa de entrada\n\n");
+              fclose(msg_feedback);
+              break;
+
+
+              // Sair dos sistema
+              case 6:
               break;
 
 
@@ -961,8 +973,9 @@ int main(){
               default:
                 printf("Invalid input\n");
               break;
+              
             }
-          }while(menu_option != 5);
+          }while(menu_option != 6);
       break;
 
 
