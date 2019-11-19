@@ -251,12 +251,11 @@ int searchCall(int search_id){
 
            if(search_id == id){ //Verifica se o id procurado está contido no arquivo
              line_id = cont;   // guarda a linha específica do id procurado
-             printf("ID: %d achado - linha %d\n", id, line_id);
              search = 1;
            }
       }
     }
-    (search == 0) ? printf("ID não encontrado\n"): printf("ID Encontrado\n");
+    (search == 0) ? printf("Status modificado com sucesso\n\n"): printf("ID Encontrado\n\n");
     fclose(file_calls);
     return line_id;
   }
@@ -332,8 +331,6 @@ void replaceStatus(int new_status){
 
     /* Renomeia o temporario para o original*/
     rename("replace_temp.txt", "calls.txt");
-
-    printf("\nSuccessfully replaced '%d' line with '%s'.", line, newline);
 
 }
 
@@ -534,7 +531,7 @@ int main(){
 
       //USER MODULE
       case 1:
-        printf("Cliente logado com sucesso\n\n");
+        printf("\nCliente logado com sucesso\n\n");
 
         // Menu de opções do sistema
          do{
@@ -795,7 +792,7 @@ int main(){
 
       // MANAGERS MODULE
       case 2:
-        printf("Administrador logado com sucesso\n");
+        printf("\nAdministrador logado com sucesso\n");
         do{
           printf("  ________________________________________________\n"
                   " /                                                \\\n"
@@ -898,7 +895,7 @@ int main(){
                   clearBuffer();
                   fgets(temp, 3, stdin); // joga a entrada do usuario na variavel temporaria
                   id_search_temp = atoi(temp); //converte a entrada do usuario para inteiro e poder ser procurado o id na função searchCall
-                  printf("Insira o codigo do novo status: \n");
+                  printf("Insira o codigo do novo status: ");
                   clearBuffer();
                   fgets(temp, 3, stdin);
                   new_status = atoi(temp); //converte a entrada do usuario para inteiro e poder ser procurado o id na função replaceStatus
