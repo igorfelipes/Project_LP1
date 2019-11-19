@@ -18,7 +18,7 @@ Data e hora: 18/11/2019 - 15:47:55
 -----------------------------------------------------------------------------------------------------------------------
 ID: 2
 Autor: Jose da Silva
-Status do chamado: 1
+Status do chamado: 3
 Tipo do chamado: Serviço de Internet
 Título: titulo 2
 Descrição: descricao
@@ -29,7 +29,7 @@ ID: 3
 Autor: Jose da Silva
 Status do chamado: 0
 Tipo do chamado: Serviço de rede
-Título: mais um 
+Título: mais um
 Descrição: descricao
 Data e hora: 18/11/2019 - 15:47:55
 

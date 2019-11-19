@@ -5,7 +5,7 @@
 #define MAXCHAR 100
 #define MAX_LINE 1000
 
-int calls(int cod_status){
+int searchStatus(int cod_status){
 
   FILE *file_calls;
 
@@ -83,6 +83,6 @@ int calls(int cod_status){
 
 int main(){
 
-  calls(2);
+  searchStatus(2);
   return 0;
 }
