@@ -391,7 +391,7 @@ int searchStatus(int cod_status){
     for(i =0; i < count_status; i++){
 
         //printf("ID: %d  - range_line: %d-%d\n", ids[i], rangef[i], rangl[i]);
-        printf("-----------------------------------------------------------------------------------------------------------------------\n"");
+        printf("-----------------------------------------------------------------------------------------------------------------------\n");
         file_calls = fopen("calls.txt", "r");
 
         //Imprime cada chamado separadamente
