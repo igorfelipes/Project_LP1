@@ -226,6 +226,8 @@ void replaceCallNumbers(){
 
 }
 
+
+
 //Retorna a linha do ID do chamado procurado
 int searchCall(int search_id){
 
@@ -333,6 +335,12 @@ void replaceStatus(int new_status){
     printf("\nSuccessfully replaced '%d' line with '%s'.", line, newline);
 
 }
+
+
+
+
+
+
 
 
 
@@ -758,6 +766,17 @@ int main(){
                           "    ___________________________________________\n\n");
                   printf("Insira sua opção: ");
                   get_option();
+
+                  switch (menu_option) {
+                    case 1:
+                    case 2:
+
+                    break;
+
+
+                    case 3:
+                    break;
+                  }
                 }while(menu_option != 3);
               break;
 
