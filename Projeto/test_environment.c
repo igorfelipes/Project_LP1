@@ -78,8 +78,7 @@ Managers managers;
 //Função de limpeza de buffer do teclado - Linux/Windows
 void clearBuffer(){
   __fpurge(stdin); //Limpeza de buffer em Sistemas Linux
-  /*setbuf(stdin, NULL); // Se estiver utilizando Windows, comente a linha de código a cima e utilize essa */
-}
+  //setbuf(stdin, NULL); /*Se estiver utilizando Windows, comente a linha de código a cima e utilize essa/*
 
 
 //Função get_option faz a limpeza do buffer de teclado, pega a opção escolhida pelo usuário e armazena nas variáveis globais
