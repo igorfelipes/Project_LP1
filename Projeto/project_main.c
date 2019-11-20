@@ -424,8 +424,15 @@ void delay(int milliseconds)
         now = clock();
 }
 
+//Colors
 
+void cor(){
+  printf("\033[1;33m");
+}
 
+void corReset(){
+  printf("\033[0m");
+}
 
 
 // Função principal
@@ -764,12 +771,14 @@ int main(){
                  case 2:
                      fclose(file_calls);
                      file_calls = fopen("calls.txt", "r");
+                     printf("\n\n");
                      while (fgets(line, MAX_LINE, file_calls)) {
+                       cor();
                        printf("%s\n",line );
                      }
                      fclose(file_calls);
                      file_calls = fopen("calls.txt", "a");
-
+                     corReset();
                  break;
 
 
@@ -812,9 +821,12 @@ int main(){
                  //Opção 4 - Mensagens de feedback do gerente
                  case 4:
                   msg_feedback = fopen("managers_msg.txt", "r");
+                  cor();
+                  printf("\n\n");
                   while (fgets(line, MAX_LINE, msg_feedback)) {
                     printf("%s\n",line );
                   }
+                  corReset();
                   printf("\033[0;31m\n\nVocê não possui mais mensagens na caixa de entrada\n\n\033[0m");
                   fclose(msg_feedback);
                  break;
@@ -900,13 +912,17 @@ int main(){
                     //Chamados abertos
                     case 1:
                       search_status = 0;
+                      cor();
                       searchStatus(search_status);
+                      corReset();
                       break;
 
                     //Chamados abertos
                     case 2:
                       search_status = 3;
+                      cor();
                       searchStatus(search_status);
+                      corReset();
                     break;
 
                     //voltar
@@ -1038,11 +1054,13 @@ int main(){
 
               //Opção 3 - Histórico de chamados - relatório
               case 3:
-                printf("Opção 3\n");
+                printf("\033[0;32m\n\nopção 3 -Gerar Relatório acionado\n\033[0m");
                 file_calls = fopen("calls.txt", "r");
+                cor();
                 while (fgets(line, MAX_LINE, file_calls)) {
                   printf("%s\n",line );
                 }
+                corReset();
                 fclose(file_calls);
               break;
 
@@ -1083,13 +1101,15 @@ int main(){
 
               break;
 
-              //Opção 5 - Visualizar Chamados
+              //Opção 5 - Mensagens recebidas
               case 5:
               msg_feedback = fopen("msg_feedback.txt", "r");
+              cor();
               while (fgets(line, MAX_LINE, msg_feedback)) {
                 printf("%s\n",line );
               }
               printf("\033[0;31m\n\nVocê não possui mais mensagens na caixa de entrada\n\n\033[0m");
+              corReset();
               fclose(msg_feedback);
               break;
 
