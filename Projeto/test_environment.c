@@ -53,6 +53,7 @@ typedef struct customers{
 // Variáveis globais
 int id_call; //recebe o id de cada chamado, que é gerado pela função callNumbers(+1)
 int id_search_temp; // ID do chamado que deseja procurar
+int search = 0;
 int new_status; // Status que deverá substituir
 int menu_option; //recebe a escolha do usuário após a conversão de string para int
 int search_status; //opção de status que o gerente deseja visualizar
@@ -235,7 +236,7 @@ int searchCall(int search_id){
   FILE *file_calls;
   char txt[MAXCHAR];
   int id, cont = 1;
-  int line_id = 0, search = 0;
+  int line_id = 0;
 
   file_calls = fopen("calls.txt", "r");
 
@@ -913,6 +914,79 @@ int main(){
                   new_status = atoi(temp); // Converte a entrada do usuario para inteiro e poder ser procurado o id na função replaceStatus
                   searchCall(id_search_temp);
                   replaceStatus(new_status); // Altera o status
+
+
+                  /* Se o gerente modoificar o status para 2 (Em antendimento - visita técnica), ele entra no if e pede para
+                  agendar a visita técnica */
+                  if((new_status == 2) && (search != 0)) {
+                    printf("\n\n");
+                    printf("  ________________________________________________\n"
+                            " /                                                \\\n"
+                             "|    _________________________________________     |\n"
+                             "|   |                                         |    |\n"
+                             "|   |          ALANA'S CORPORATION            |    |\n"
+                             "|   |                                         |    |\n"
+                             "|   |            Agendar Visita               |    |\n"
+                             "|   |                                         |    |\n");
+                      printf("|   |  \t   1 -Data: %02d/%02d/%02d\t - Manhã      |    |\n", day+1, month, year);
+                      printf("|   |  \t   2 -Data: %02d/%02d/%02d\t - Tarde      |    |\n", day+1, month, year);
+                      printf("|   |  \t   3 -Data: %02d/%02d/%02d\t - Manhã      |    |\n", day+2, month, year);
+                      printf("|   |  \t   4 -Data: %02d/%02d/%02d\t - Tarde      |    |\n", day+2, month, year);
+                      printf("|   |                                         |    |\n"
+                             "|   |                                         |    |\n"
+                             "|   |                                         |    |\n"
+                             "|   |_________________________________________|    |\n"
+                             "|                                                  |\n"
+                            "\\__________________________________________________/\n"
+                          "        \\___________________________________/\n"
+                              "    ___________________________________________\n\n");
+                              printf("Insira sua opção: ");
+                              get_option();
+
+                              switch (menu_option) {
+
+                                //Opção 1
+                                case 1:
+                                  msg_feedback = fopen("managers_msg.txt", "a");
+                                  fprintf(msg_feedback, "Autor: %s\n", managers.name);
+                                  fprintf(msg_feedback, "Mensagem: O chamado com ID: %d foi agendado para visita técnica no dia: %02d/%02d/%02d - Manhã\n", id_search_temp, day+1, month, year);
+                                  fprintf(msg_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+                                  fclose(msg_feedback);
+                                break;
+
+                                //Opção 2
+                                case 2:
+                                  msg_feedback = fopen("managers_msg.txt", "a");
+                                  fprintf(msg_feedback, "Autor: %s\n", managers.name);
+                                  fprintf(msg_feedback, "Mensagem: O chamado com ID: %d foi agendado para visita técnica no dia: %02d/%02d/%02d - Tarde\n", id_search_temp, day+1, month, year);
+                                  fprintf(msg_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+                                  fclose(msg_feedback);
+                                break;
+
+                                //Opção 3
+                                case 3:
+                                  msg_feedback = fopen("managers_msg.txt", "a");
+                                  fprintf(msg_feedback, "Autor: %s\n", managers.name);
+                                  fprintf(msg_feedback, "Mensagem: O chamado com ID: %d foi agendado para visita técnica no dia: %02d/%02d/%02d - Manhã\n", id_search_temp, day+2, month, year);
+                                  fprintf(msg_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+                                  fclose(msg_feedback);
+                                break;
+
+                                //Opção 4
+                                case 4:
+                                  msg_feedback = fopen("managers_msg.txt", "a");
+                                  fprintf(msg_feedback, "Autor: %s\n", managers.name);
+                                  fprintf(msg_feedback, "Mensagem: O chamado com ID: %d foi agendado para visita técnica no dia: %02d/%02d/%02d - Tarde\n", id_search_temp, day+2, month, year);
+                                  fprintf(msg_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+                                  fclose(msg_feedback);
+                                break;
+
+                                default:
+                                  printf("Digite uma opção válida\n");
+                                break;
+
+                              }
+                  }
 
               break;
 
