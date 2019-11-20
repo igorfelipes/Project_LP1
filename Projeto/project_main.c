@@ -256,7 +256,6 @@ int searchCall(int search_id){
            }
       }
     }
-    (search == 0) ? printf(" ID não encontrado\n\n"): printf("\n");
     fclose(file_calls);
     return line_id;
   }
@@ -574,7 +573,7 @@ int main(){
 
       //USER MODULE
       case 1:
-        printf("\nCliente logado com sucesso\n\n");
+        printf("\033[0;32m\nCliente logado com sucesso\n\n\033[0m");
 
         // Menu de opções do sistema
          do{
@@ -752,7 +751,7 @@ int main(){
 
                              //Exception Handling
                              default:
-                             printf("Invalid Option\n");
+                              printf("\033[0;31m Entrada Inválida, digite novamente\n \033[0m");
                              break;
                            }
                        }
@@ -776,7 +775,7 @@ int main(){
 
                  //Opção 3 - Enviar Mensagem
                  case 3:
-                     printf("opção 3 - Enviar Mensagem acionado\n");
+                     printf("\033[0;32mopção 3 - Enviar Mensagem acionado\n");
                      printf("\n\n");
                      printf("  ________________________________________________\n"
                              " /                                                \\\n"
@@ -816,7 +815,7 @@ int main(){
                   while (fgets(line, MAX_LINE, msg_feedback)) {
                     printf("%s\n",line );
                   }
-                  printf("\n\nVocê não possui mais mensagens na caixa de entrada\n\n");
+                  printf("\033[0;31m\n\nVocê não possui mais mensagens na caixa de entrada\n\n\033[0m");
                   fclose(msg_feedback);
                  break;
 
@@ -829,7 +828,7 @@ int main(){
 
                  //Exception Handling
                  default:
-                   printf("\n\ninvalid input\n");
+                    printf("\033[0;31m Entrada Inválida, digite novamente\n \033[0m");
                  break;
                }
 
@@ -842,7 +841,7 @@ int main(){
 
       // MANAGERS MODULE
       case 2:
-        printf("\nAdministrador logado com sucesso\n");
+        printf("\033[0;32m\nAdministrador logado com sucesso\n\033[0m");
         do{
           printf("  ________________________________________________\n"
                   " /                                                \\\n"
@@ -914,6 +913,11 @@ int main(){
                     case 3:
                     break;
 
+                    //Exception Handling
+                    default:
+                      printf("\033[0;31m Entrada Inválida, digite novamente\n \033[0m");
+                    break;
+
                   }
                 }while(menu_option != 3);
               break;
@@ -954,8 +958,10 @@ int main(){
                   searchCall(id_search_temp);
                   replaceStatus(new_status); // Altera o status
 
+                  //verificar a se o ID buscado consta no histórico ou é inválido
+                  (search == 0) ? printf("\n\n \033[0;31m	ID não encontrado ou inválido \033[0m \n\n"): printf("\n");
 
-                  /* Se o gerente modoificar o status para 2 (Em antendimento - visita técnica), ele entra no if e pede para
+                  /* Se o gerente modificar o status para 2 (Em antendimento - visita técnica), ele entra no if e pede para
                   agendar a visita técnica */
                   if((new_status == 2) && (search != 0)) {
                     printf("\n\n");
@@ -1021,7 +1027,7 @@ int main(){
                                 break;
 
                                 default:
-                                  printf("Digite uma opção válida\n");
+                                  printf("\033[0;31m	Digite uma opção válida\n \033[0m ");
                                 break;
 
                               }
@@ -1043,7 +1049,7 @@ int main(){
 
               //Opção 4 - Mensagem de feedback para o cliente
               case 4:
-                printf("opção 4 - Enviar Mensagem acionado\n");
+                printf("\033[0;32m\n\nopção 4 - Enviar Mensagem acionado\n\033[0m");
                 printf("\n\n");
                 printf("  ________________________________________________\n"
                         " /                                                \\\n"
@@ -1083,7 +1089,7 @@ int main(){
               while (fgets(line, MAX_LINE, msg_feedback)) {
                 printf("%s\n",line );
               }
-              printf("\n\nVocê não possui mais mensagens na caixa de entrada\n\n");
+              printf("\033[0;31m\n\nVocê não possui mais mensagens na caixa de entrada\n\n\033[0m");
               fclose(msg_feedback);
               break;
 
@@ -1095,7 +1101,7 @@ int main(){
 
               //Exception Handling
               default:
-                printf("Invalid input\n");
+                printf("\033[0;31m\n\nEntrada Inválida, digite novamente\n\n\033[0m");
               break;
 
             }
@@ -1105,7 +1111,7 @@ int main(){
 
       //Exception Handling
       default:
-        printf("\n\n Login ou senha incorretos\n\n");
+        printf("\033[0;31m\n\nLogin ou senha incorreto\n\n \033[0m");
       break;
     }
 
