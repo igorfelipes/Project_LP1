@@ -505,7 +505,7 @@ int main(){
            "|   |                                         |    |\n"
            "|   |                                         |    |\n"
            "|   |                                         |    |\n"
-           "|   |           ALANA'S CORPORATION Ⓡ        |    |\n"
+           "|   |           ALANA'S CORPORATION Ⓡ         |    |\n"
            "|   |                                         |    |\n"
            "|   |               Loading...                |    |\n"
            "|   |                                         |    |\n"
