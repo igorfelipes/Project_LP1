@@ -255,7 +255,7 @@ int searchCall(int search_id){
            }
       }
     }
-    (search == 0) ? printf("Status modificado com sucesso\n\n"): printf("ID Encontrado\n\n");
+    (search == 0) ? printf(" ID não encontrado\n\n"): printf("\n");
     fclose(file_calls);
     return line_id;
   }
@@ -331,8 +331,9 @@ void replaceStatus(int new_status){
 
     /* Renomeia o temporario para o original*/
     rename("replace_temp.txt", "calls.txt");
-
+    printf("Status modificado com Sucesso\n\n");
 }
+
 
 
 //Imprime os chamados com o codigo de status específico
@@ -387,7 +388,7 @@ int searchStatus(int cod_status){
     //Faz uma varredura na quantidade de chamados com o status selecionado pelo gerente
     for(i =0; i < count_status; i++){
 
-        //printf("ID: %d  - range_line: %d-%d\n", ids[i], rangef[i], rangl[i]);
+
         printf("-----------------------------------------------------------------------------------------------------------------------\n");
         file_calls = fopen("calls.txt", "r");
 
@@ -485,6 +486,7 @@ int main(){
 
 
 
+  //System access
 
   while ( option_access == 0) {
 
@@ -526,6 +528,7 @@ int main(){
     }else
       option_access = 0; /* Opção de acesso de login e senha incorreto -
                           permanece no loop até digitar o login e senha correto   */
+
 
     switch (option_access) {
 
@@ -609,7 +612,7 @@ int main(){
                                         "|   |  Tipo do chamado: Serviço de rede       |    |\n"
                                         "|   |  Título:                                |    |\n"
                                         "|   |  Descrição:                             |    |\n"
-                                        "|   |  Autor:                                 |    |\n"
+                                        "|   |                                         |    |\n"
                                         "|   |                                         |    |\n"
                                         "|   |                                         |    |\n"
                                         "|   |                                         |    |\n"
@@ -663,7 +666,7 @@ int main(){
                                         "|   |  Tipo do chamado: Serviço de Internet   |    |\n"
                                         "|   |  Título:                                |    |\n"
                                         "|   |  Descrição:                             |    |\n"
-                                        "|   |  Autor:                                 |    |\n"
+                                        "|   |                                         |    |\n"
                                         "|   |                                         |    |\n"
                                         "|   |                                         |    |\n"
                                         "|   |                                         |    |\n"
@@ -717,6 +720,7 @@ int main(){
 
                  break;
 
+
                  //Opção 2 - Histórico de chamados
                  case 2:
                      fclose(file_calls);
@@ -728,6 +732,7 @@ int main(){
                      file_calls = fopen("calls.txt", "a");
 
                  break;
+
 
                  //Opção 3 - Enviar Mensagem
                  case 3:
@@ -764,6 +769,7 @@ int main(){
 
                  break;
 
+
                  //Opção 4 - Mensagens de feedback do gerente
                  case 4:
                   msg_feedback = fopen("managers_msg.txt", "r");
@@ -774,10 +780,12 @@ int main(){
                   fclose(msg_feedback);
                  break;
 
+
                  //Opção 5- Sair do sistema
                  case 5:
                   option_access = 1;
                  break;
+
 
                  //Exception Handling
                  default:
@@ -788,6 +796,7 @@ int main(){
          }while(menu_option != 5); // Com a utilização do Do While, da para incorporar o tratamento de erros
 
         break; // break user module
+
 
 
 
@@ -819,6 +828,7 @@ int main(){
             get_option();
             switch (menu_option) {
 
+              //Opção 1 - Visualizar Chamados
               case 1:
                 do {
 
@@ -869,6 +879,7 @@ int main(){
               break;
 
 
+              //Opção 2 - Mudar Status do chamado
               case 2:
 
                 printf("\n\n");
@@ -899,14 +910,14 @@ int main(){
                   printf("Insira o codigo do novo status: ");
                   clearBuffer();
                   fgets(temp, 3, stdin);
-                  new_status = atoi(temp); //converte a entrada do usuario para inteiro e poder ser procurado o id na função replaceStatus
+                  new_status = atoi(temp); // Converte a entrada do usuario para inteiro e poder ser procurado o id na função replaceStatus
                   searchCall(id_search_temp);
-                  replaceStatus(new_status);
+                  replaceStatus(new_status); // Altera o status
 
               break;
 
 
-              //Histórico de chamados - relatório
+              //Opção 3 - Histórico de chamados - relatório
               case 3:
                 printf("Opção 3\n");
                 file_calls = fopen("calls.txt", "r");
@@ -917,7 +928,7 @@ int main(){
               break;
 
 
-              // Mensagem de feedback para o cliente
+              //Opção 4 - Mensagem de feedback para o cliente
               case 4:
                 printf("opção 4 - Enviar Mensagem acionado\n");
                 printf("\n\n");
@@ -953,7 +964,7 @@ int main(){
 
               break;
 
-
+              //Opção 5 - Visualizar Chamados
               case 5:
               msg_feedback = fopen("msg_feedback.txt", "r");
               while (fgets(line, MAX_LINE, msg_feedback)) {
@@ -964,7 +975,7 @@ int main(){
               break;
 
 
-              // Sair dos sistema
+              //Opção 6 - Sair dos sistema
               case 6:
               break;
 
