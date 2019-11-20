@@ -424,8 +424,7 @@ void delay(int milliseconds)
         now = clock();
 }
 
-//Colors
-
+//System Colors
 void cor(){
   printf("\033[1;33m");
 }
@@ -433,6 +432,9 @@ void cor(){
 void corReset(){
   printf("\033[0m");
 }
+
+
+
 
 
 // Função principal
