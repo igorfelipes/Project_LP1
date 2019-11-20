@@ -609,7 +609,7 @@ int main(){
                                         "|   |  Tipo do chamado: Serviço de rede       |    |\n"
                                         "|   |  Título:                                |    |\n"
                                         "|   |  Descrição:                             |    |\n"
-                                        "|   |  Autor:                                 |    |\n"
+                                        "|   |                                         |    |\n"
                                         "|   |                                         |    |\n"
                                         "|   |                                         |    |\n"
                                         "|   |                                         |    |\n"
@@ -663,7 +663,7 @@ int main(){
                                         "|   |  Tipo do chamado: Serviço de Internet   |    |\n"
                                         "|   |  Título:                                |    |\n"
                                         "|   |  Descrição:                             |    |\n"
-                                        "|   |  Autor:                                 |    |\n"
+                                        "|   |                                         |    |\n"
                                         "|   |                                         |    |\n"
                                         "|   |                                         |    |\n"
                                         "|   |                                         |    |\n"
@@ -973,7 +973,7 @@ int main(){
               default:
                 printf("Invalid input\n");
               break;
-              
+
             }
           }while(menu_option != 6);
       break;
