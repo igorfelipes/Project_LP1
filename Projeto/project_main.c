@@ -505,14 +505,13 @@ int main(){
 
 
 
-  if(file_calls == NULL){
-    printf("File couldn't be opened calls.txt\n");
-    return 0;
+  if (file_calls == NULL || message_feedback == NULL)
+  {
+      printf("\nFile couldn't be opened\n");
+      printf("Please check whether file exists and you have read/write privilege.\n");
+      return 0;
   }
-  if(message_feedback == NULL){
-    printf("File couldn't be opened message_feedback.txt\n");
-    return 0;
-  }
+
 
 
 
