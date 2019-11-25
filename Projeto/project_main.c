@@ -155,12 +155,15 @@ void replaceCallNumbers(){
 
     char buffer[BUFFER_SIZE];
     char newline[BUFFER_SIZE] = "qtd_de_chamados: 0\n";
-    //char temp_char[10];//variavel temporaria de char
+
     char temp_str[10];
     int count, n, line = 8;
+
+
     id_call = callNumbers() + 1;
-    printf("retorno de callNumbers: %d\n",id_call); // até aqui ta dando certo
-    tostring(temp_str, id_call);   //VERIFICAR AQUI - FUI DORMIR
+
+    printf("retorno de callNumbers: %d\n",id_call);
+    tostring(temp_str, id_call);
 
     if(!(temp_str[1])){
       printf("Deu certo a comparação de Nulo\n");
@@ -213,15 +216,14 @@ void replaceCallNumbers(){
     }
 
 
-    /* Fecha todos os arquivos e salva as mudanças */
     fclose(file_calls);
     fclose(file_temp);
 
 
-    /* Deleta o arquivo original*/
     remove("calls.txt");
 
-    /* Renomeia o temporario para o original*/
+
+
     rename("replace_temp.txt", "calls.txt");
 
     printf("\nSuccessfully replaced '%d' line with '%s'.", line, newline);
