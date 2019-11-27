@@ -32,15 +32,15 @@ typedef struct calls{
  *    nível do usuário.
  */
 typedef struct managers{
-    char login[10];
-    char password[10];
-    char name[10];
+    char login[MAX_20];
+    char password[MAX_20];
+    char name[MAX_20];
 }Managers;
 
 
 typedef struct customers{
-    char login[10];
-    char password[10];
+    char login[MAX_20];
+    char password[MAX_20];
 }Customers;
 
 
@@ -54,7 +54,7 @@ int new_status;
 int menu_option;
 int search_status;
 char temporary[3];
-char message[400];
+char message[MAX_LINE];
 char menu_option_str[MAX_20];
 char line[MAX_LINE]; //Será usado posteriormente para a exibição do historico de chamados
 
@@ -131,7 +131,6 @@ int numbers_of_calls(){
       if(strcmp("qtd_de_chamados:", txt) == 0 ){
            fscanf(file_calls, " %1023s", txt);
            number_of_calls = atoi(txt);
-           printf("Quantidade de chamados: %d\n", number_of_calls);
       }
     }
     fclose(file_calls);
@@ -322,7 +321,7 @@ void replaceStatus(int new_status){
     remove("calls.txt");
 
     rename("replace_temporary.txt", "calls.txt");
-    printf("Status modificado com Sucesso\n\n");
+    printf("\033[0;32m\n\nStatus modificado com Sucesso\n\n\033[0m");
 }
 
 
@@ -472,14 +471,14 @@ int main(){
 
   strcpy(calls.status, "0"); // Todos os chamados inicializarão Em aberto "0"
 
-  strcpy(calls.author, "Jose da Silva\n");
+  strcpy(calls.author, "Alana Morais\n");
 
   strcpy(managers.name, "Igor\n");
 
   strcpy(managers.login, "admin\n");
   strcpy(managers.password, "admin\n");
-  strcpy(customers.login, "cliente\n");
-  strcpy(customers.password, "1234\n");
+  strcpy(customers.login, "alana.m\n");
+  strcpy(customers.password, "alana123\n");
 
 
 
@@ -489,8 +488,8 @@ int main(){
 
 
 
-  char login[10];
-  char password[10];
+  char login[MAX_20];
+  char password[MAX_20];
 
   int option_access = 0;
 
@@ -580,7 +579,7 @@ int main(){
 
     if((strcmp(login, customers.login) == 0) && (strcmp(password, customers.password) == 0)){
       option_access = 1; //Opção de acesso ao modulo do cliente
-      printf("Deu certo\n");}
+      }
     else if((strcmp(login, managers.login) == 0) && (strcmp(password, managers.password) == 0)){
       option_access = 2; //Opção de acesso ao modulo do gerente
     }else
@@ -786,7 +785,7 @@ int main(){
                  //Opção 2 - Histórico de chamados
                  case 2:
                    printf("\n\n");
-                   printf("\033[0;32m\nOpção 2 - Histórico de chamados acionado\n\n\033[0m");
+                   printf("\033[0;32m\n\nOpção 2 - Histórico de chamados acionado\n\n\033[0m");
 
                    fclose(file_calls);
                    file_calls = fopen("calls.txt", "r");
@@ -806,7 +805,7 @@ int main(){
 
                  //Opção 3 - Enviar Mensagem
                  case 3:
-                     printf("\033[0;32mopção 3 - Enviar Mensagem acionado\n\033[0m");
+                     printf("\033[0;32m\n\nopção 3 - Enviar Mensagem acionado\n\033[0m");
                      printf("\n\n");
                      printf("  ________________________________________________\n"
                              " /                                                \\\n"
@@ -830,13 +829,14 @@ int main(){
                                "    ___________________________________________\n\n");
                      printf("Digite sua mensagem: ");
                      clearBuffer();
-                     fgets(message, 400, stdin);
+                     fgets(message, MAX_LINE, stdin);
                      clearBuffer();
 
+                     message_feedback = fopen("message_feedback.txt", "a");
                      fprintf(message_feedback, "Autor: %s\n",calls.author);
                      fprintf(message_feedback, "Mensagem: %s\n", message);
                      fprintf(message_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
-
+                     fclose(message_feedback);
                  break;
 
 
@@ -939,7 +939,7 @@ int main(){
 
                     switch (menu_option) {
 
-                      //Chamados abertos
+                      //Chamados em aberto
                       case 1:
                         search_status = 0;
                         displayColor();
@@ -948,7 +948,7 @@ int main(){
                         printf("\033[0;31m\n\nVocê não possui mais chamados em aberto no seu histórico\n\n\033[0m");
                         break;
 
-                      //Chamados abertos
+                      //Chamados fechados
                       case 2:
                         search_status = 3;
                         displayColor();
@@ -1128,14 +1128,14 @@ int main(){
                           "    ___________________________________________\n\n");
                 printf("Digite sua mensagem: ");
                 clearBuffer();
-                fgets(message, 400, stdin);
+                fgets(message, MAX_LINE, stdin);
                 clearBuffer();
 
                 message_feedback = fopen("managers_message.txt", "a");
                 fprintf(message_feedback, "Autor: %s\n", managers.name);
                 fprintf(message_feedback, "Mensagem: %s\n", message);
                 fprintf(message_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
-
+                fclose(message_feedback);
               break;
 
               //Opção 5 - Mensagens recebidas
