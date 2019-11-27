@@ -588,12 +588,14 @@ int main(){
                           permanece no loop até digitar o login e senha correto   */
 
 
+
+
     switch (option_access) {
+
 
       //USER MODULE
       case 1:
         printf("\033[0;32m\nCliente logado com sucesso\n\n\033[0m");
-
 
         // Menu de opções do sistema
          do{
@@ -626,10 +628,10 @@ int main(){
 
                  //Opção 1 - Abrir chamado
                  case 1:
-
+                  printf("\n\n");
+                  printf("\033[0;32m\nOpção 1 - Abrir chamado acionado\n\n\033[0m");
                        do{
                          printf("\n\n");
-                         printf("\033[0;32m\nOpção 1 - Abrir chamado acionado\n\n\033[0m");
                          printf("  ________________________________________________\n"
                                  " /                                                \\\n"
                                   "|    _________________________________________     |\n"
@@ -878,7 +880,7 @@ int main(){
 
       // MANAGERS MODULE
       case 2:
-        printf("\033[0;32m\nAdministrador logado com sucesso\n\033[0m");
+        printf("\033[0;32m\nAdministrador logado com sucesso\n\n\033[0m");
         do{
           printf("  ________________________________________________\n"
                   " /                                                \\\n"
@@ -907,61 +909,62 @@ int main(){
 
               //Opção 1 - Visualizar Chamados
               case 1:
-                do {
-
                 printf("\n\n");
                 printf("\033[0;32m\nOpção 1 - Visualizar chamados acionado\n\n\033[0m");
-                printf("  ________________________________________________\n"
-                        " /                                                \\\n"
-                         "|    _________________________________________     |\n"
-                         "|   |                                         |    |\n"
-                         "|   |          ALANA'S CORPORATION            |    |\n"
-                         "|   |                                         |    |\n"
-                         "|   |  1-Visualizar Chamados Abertos          |    |\n"
-                         "|   |  2-Visualizar Chamados Fechados         |    |\n"
-                         "|   |  3-Voltar                               |    |\n"
-                         "|   |                                         |    |\n"
-                         "|   |                                         |    |\n"
-                         "|   |                                         |    |\n"
-                         "|   |                                         |    |\n"
-                         "|   |                                         |    |\n"
-                         "|   |                                         |    |\n"
-                         "|   |_________________________________________|    |\n"
-                         "|                                                  |\n"
-                        "\\__________________________________________________/\n"
-                      "        \\___________________________________/\n"
-                          "    ___________________________________________\n\n");
-                  printf("Insira sua opção: ");
-                  get_option();
+                do {
 
-                  switch (menu_option) {
 
-                    //Chamados abertos
-                    case 1:
-                      search_status = 0;
-                      displayColor();
-                      display_searched_status(search_status);
-                      resetColor();
-                      printf("\033[0;31m\n\nVocê não possui mais chamados em aberto no seu histórico\n\n\033[0m");
+                  printf("  ________________________________________________\n"
+                          " /                                                \\\n"
+                           "|    _________________________________________     |\n"
+                           "|   |                                         |    |\n"
+                           "|   |          ALANA'S CORPORATION            |    |\n"
+                           "|   |                                         |    |\n"
+                           "|   |  1-Visualizar Chamados Abertos          |    |\n"
+                           "|   |  2-Visualizar Chamados Fechados         |    |\n"
+                           "|   |  3-Voltar                               |    |\n"
+                           "|   |                                         |    |\n"
+                           "|   |                                         |    |\n"
+                           "|   |                                         |    |\n"
+                           "|   |                                         |    |\n"
+                           "|   |                                         |    |\n"
+                           "|   |                                         |    |\n"
+                           "|   |_________________________________________|    |\n"
+                           "|                                                  |\n"
+                          "\\__________________________________________________/\n"
+                        "        \\___________________________________/\n"
+                            "    ___________________________________________\n\n");
+                    printf("Insira sua opção: ");
+                    get_option();
+
+                    switch (menu_option) {
+
+                      //Chamados abertos
+                      case 1:
+                        search_status = 0;
+                        displayColor();
+                        display_searched_status(search_status);
+                        resetColor();
+                        printf("\033[0;31m\n\nVocê não possui mais chamados em aberto no seu histórico\n\n\033[0m");
+                        break;
+
+                      //Chamados abertos
+                      case 2:
+                        search_status = 3;
+                        displayColor();
+                        display_searched_status(search_status);
+                        resetColor();
+                        printf("\033[0;31m\n\nVocê não possui mais chamados fechados no seu histórico\n\n\033[0m");
                       break;
 
-                    //Chamados abertos
-                    case 2:
-                      search_status = 3;
-                      displayColor();
-                      display_searched_status(search_status);
-                      resetColor();
-                      printf("\033[0;31m\n\nVocê não possui mais chamados fechados no seu histórico\n\n\033[0m");
-                    break;
+                      //voltar
+                      case 3:
+                      break;
 
-                    //voltar
-                    case 3:
-                    break;
-
-                    //Exception Handling
-                    default:
-                      printf("\033[0;31m Entrada Inválida, digite novamente\n \033[0m");
-                    break;
+                      //Exception Handling
+                      default:
+                        printf("\033[0;31m Entrada Inválida, digite novamente\n \033[0m");
+                      break;
 
                   }
                 }while(menu_option != 3);
