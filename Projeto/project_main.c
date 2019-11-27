@@ -4,7 +4,6 @@
 #include <locale.h>
 #include <string.h>
 #include <time.h>
-#include <stdbool.h>
 
 
 #define MAX_200 200
