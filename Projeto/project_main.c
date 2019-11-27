@@ -4,13 +4,8 @@
 #include <locale.h>
 #include <string.h>
 #include <time.h>
+#include <stdbool.h>
 
-
-
-/*
- *  Foi definida as constantes abaixo para ficar mais fácil de manusear
- *  as variáveis do tipo String do codigo
- */
 
 #define MAX_200 200
 #define MAX_20 20
@@ -21,27 +16,27 @@
 
 
 
-/*               Estrutura de informações contidas dentro de um chamado
- *
- *      Struct calls armazena os dados contidos dentro de um chamado, Título,
- *      Descrição, status ( 0- em aberto, 1- em atendimento , 2- em atendimento - visita técnica,
- *      3-concluído e 4- não resolvido), e o autor do chamado
- */
 
 typedef struct calls{
+
+    /* Informações de cada chamado */
     char title_calls[MAX_40];
     char descr[MAX_200];
     char status[MAX_20];
     char author[MAX_20];
 }Calls;
 
-// Estrutura para armazenar os usuários cadastrados no Sistema
 
+/*    O sistema possui dois tipos de login, um de cliente e outro de gerente
+ *    Cada usuário possui um módulo com funcionalidades específicas conforme o
+ *    nível do usuário.
+ */
 typedef struct managers{
     char login[10];
     char password[10];
     char name[10];
 }Managers;
+
 
 typedef struct customers{
     char login[10];
@@ -51,24 +46,28 @@ typedef struct customers{
 
 
 // Variáveis globais
-int id_call; //recebe o id de cada chamado, que é gerado pela função callNumbers(+1)
-int id_search_temp; // ID do chamado que deseja procurar
+
+int id_call;
+int id_search_temporary;
 int search = 0;
-int new_status; // Status que deverá substituir
-int menu_option; //recebe a escolha do usuário após a conversão de string para int
-int search_status; //opção de status que o gerente deseja visualizar
-char temp[3];
-char msg[400]; //variável para guardar a mensagem do usuario
-char menu_option_str[MAX_20]; // guarda a opção escolhida pelo usuário
-char line[MAX_LINE]; //recebe cada linha para a impressao de historico de chamados
+int new_status;
+int menu_option;
+int search_status;
+char temporary[3];
+char message[400];
+char menu_option_str[MAX_20];
+char line[MAX_LINE]; //Será usado posteriormente para a exibição do historico de chamados
+
+
+
 char serv_rede[MAX_20] = "Serviço de rede\0"; // chamado relacionados a serviço de rede
 char serv_internet[MAX_40] = "Serviço de Internet\0"; // chamado relacionados a serviço de de internet
 
 
 
 
-//declaração da struct calls
-Calls calls; //struct com variáveis que servem como informação necessária para um chamado
+
+Calls calls;
 Customers customers;
 Managers managers;
 
@@ -77,14 +76,12 @@ Managers managers;
 
 /* Funções */
 
-//Função de limpeza de buffer do teclado - Linux/Windows
 void clearBuffer(){
-  __fpurge(stdin); //Limpeza de buffer em Sistemas Linux
+  __fpurge(stdin); //Sistemas Linux
   /*setbuf(stdin, NULL); // Se estiver utilizando Windows, comente a linha de código a cima e utilize essa */
 }
 
 
-//Função get_option faz a limpeza do buffer de teclado, pega a opção escolhida pelo usuário e armazena nas variáveis globais
 void get_option(){
   clearBuffer();
   fgets(menu_option_str, MAX_40, stdin);
@@ -93,7 +90,6 @@ void get_option(){
 }
 
 
-//Funções para ID do chamado e mudança de arquivo
 
 
 /* Função de conversão de int para String */
@@ -117,12 +113,13 @@ void tostring(char str[], int num)
 }
 
 
-/* Retorna o número de chamados do sistema*/
-int callNumbers(){
+
+
+int numbers_of_calls(){
 
   FILE *file_calls;
   char txt[MAXCHAR];
-  int qtd;
+  int number_of_calls;
 
   file_calls = fopen("calls.txt", "r");
 
@@ -131,14 +128,14 @@ int callNumbers(){
     while (fscanf(file_calls, " %99s", txt) != EOF)
     {
 
-      if(strcmp("qtd_de_chamados:", txt) == 0 ){                      //verifica que leu a palavra Quantidade de chamados
-           fscanf(file_calls, " %1023s", txt);                  //le a proxima coisa, que deve ser um numero
-           qtd = atoi(txt);                              //passa pra inteiro
-           printf("Quantidade de chamados: %d\n", qtd);                              //printa ele
+      if(strcmp("qtd_de_chamados:", txt) == 0 ){
+           fscanf(file_calls, " %1023s", txt);
+           number_of_calls = atoi(txt);
+           printf("Quantidade de chamados: %d\n", number_of_calls);
       }
     }
     fclose(file_calls);
-    return qtd;
+    return number_of_calls;
   }
   else{
     return 0;
@@ -146,54 +143,49 @@ int callNumbers(){
 }
 
 
-//Modifica o número de chamados do sistema
-void replaceCallNumbers(){
+
+void replace_numbers_of_calls(){
 
     FILE * file_calls;
-    FILE * file_temp;
+    FILE * file_temporary;
     char path[100];
 
     char buffer[BUFFER_SIZE];
     char newline[BUFFER_SIZE] = "qtd_de_chamados: 0\n";
-    //char temp_char[10];//variavel temporaria de char
-    char temp_str[10];
-    int count, n, line = 8;
-    id_call = callNumbers() + 1;
-    printf("retorno de callNumbers: %d\n",id_call); // até aqui ta dando certo
-    tostring(temp_str, id_call);   //VERIFICAR AQUI - FUI DORMIR
 
-    if(!(temp_str[1])){
-      printf("Deu certo a comparação de Nulo\n");
-      temp_str[1] = '\n';
+    char temporary_str[10];
+    int count, n, line = 8;
+
+
+    id_call = numbers_of_calls() + 1;
+
+    tostring(temporary_str, id_call);
+
+    if(!(temporary_str[1])){
+      temporary_str[1] = '\n';
       newline[19] = 0;
     }
     else{
       newline[19] = '\n';
     }
-    printf("Numero convertido: %c\n", temp_str[0]);
-    newline[17] = temp_str[0];
-    newline[18] = temp_str[1];
 
-
-    printf("%s\n",newline);
-
-
-    printf("deu certo\n");
+    newline[17] = temporary_str[0];
+    newline[18] = temporary_str[1];
 
 
 
-    /* files */
     file_calls  = fopen("calls.txt", "r");
-    file_temp = fopen("replace_temp.txt", "w");
+    file_temporary = fopen("replace_temporary.txt", "w");
 
 
-    /* Verifica a abertura dos arquivos */
-    if (file_calls == NULL || file_temp == NULL)
+
+    if (file_calls == NULL || file_temporary == NULL)
     {
         printf("\nFile couldn't be opened\n");
         printf("Please check whether file exists and you have read/write privilege.\n");
         return;
     }
+
 
 
     /*
@@ -205,60 +197,62 @@ void replaceCallNumbers(){
     {
         count++;
 
-        /* verifica se a linha atual é a linha que será modificada*/
         if (count == line)
-            fputs(newline, file_temp);
+            fputs(newline, file_temporary);
         else
-            fputs(buffer, file_temp);
+            fputs(buffer, file_temporary);
     }
 
 
-    /* Fecha todos os arquivos e salva as mudanças */
     fclose(file_calls);
-    fclose(file_temp);
+    fclose(file_temporary);
 
 
-    /* Deleta o arquivo original*/
     remove("calls.txt");
 
-    /* Renomeia o temporario para o original*/
-    rename("replace_temp.txt", "calls.txt");
 
-    printf("\nSuccessfully replaced '%d' line with '%s'.", line, newline);
+
+    rename("replace_temporary.txt", "calls.txt");
+
 
 }
 
 
 
-//Retorna a linha do ID do chamado procurado
+
 int searchCall(int search_id){
 
   FILE *file_calls;
   char txt[MAXCHAR];
-  int id, cont = 1;
-  int line_id = 0;
+  int id, counter = 1;  // o contador começa em 1 pois o arquivo começa a contagem de linhas a partir do 1
+  int line_of_id = 0;
 
   file_calls = fopen("calls.txt", "r");
 
   if (file_calls){
 
-    while (fscanf(file_calls, " %99s", txt) != EOF) //Verifica o arquivo completo
+    while (fscanf(file_calls, " %99s", txt) != EOF)
     {
 
-      if(strcmp("ID:", txt) == 0 ){                      //Verifica os ID's dos chamados
-            cont +=9;                                    //contagem da linha específica de cada id
-           fscanf(file_calls, " %1023s", txt);                  //le a numeração do ID
-           id = atoi(txt);                              //Converte o id para inteiro
+      if(strcmp("ID:", txt) == 0 ){
 
-           if(search_id == id){ //Verifica se o id procurado está contido no arquivo
-             line_id = cont;   // guarda a linha específica do id procurado
+           counter +=9;
+
+           fscanf(file_calls, " %1023s", txt);
+           id = atoi(txt);
+
+           if(search_id == id){
+             line_of_id = counter;
              search = 1;
            }
       }
     }
+
     fclose(file_calls);
-    return line_id;
+
+    return line_of_id;
   }
+
   else{
     return 0;
   }
@@ -266,23 +260,27 @@ int searchCall(int search_id){
 
 
 
-//Modifica o status do chamado
+
+
 void replaceStatus(int new_status){
 
     FILE * file_calls;
-    FILE * file_temp;
+    FILE * file_temporary;
 
-    //Variáveis de buffer para mundaça de linha
+
+
     char buffer[BUFFER_SIZE];
     char newline[BUFFER_SIZE] = "Status do chamado: 0\n";
 
 
-    char temp_str[2]; //variável temporaria que receberá a conversão do status de inteiro para string
+    char temporary_str[2];
     int count, line;
-    line = searchCall(id_search_temp) + 2; //linha do id do chamado
-    tostring(temp_str, new_status); // função de conversão para string
 
-    newline[19] = temp_str[0]; //modificando o status do chamado
+
+    line = searchCall(id_search_temporary) + 2;
+    tostring(temporary_str, new_status);
+
+    newline[19] = temporary_str[0]; //modificando o status do chamado
     newline[20] = '\n';
 
     if(line == 2){
@@ -290,13 +288,13 @@ void replaceStatus(int new_status){
     }
 
 
-    /* files */
+
     file_calls  = fopen("calls.txt", "r");
-    file_temp = fopen("replace_temp.txt", "w");
+    file_temporary = fopen("replace_temporary.txt", "w");
 
 
-    /* Verifica a abertura dos arquivos */
-    if (file_calls == NULL || file_temp == NULL)
+
+    if (file_calls == NULL || file_temporary == NULL)
     {
         printf("\nFile couldn't be opened\n");
         printf("Please check whether file exists and you have read/write privilege.\n");
@@ -304,50 +302,50 @@ void replaceStatus(int new_status){
     }
 
 
-    /*
-     *  Lê a linha do arquivo fonte e escreve para o destino
-     * do arquivo e modifica a linha.
-     */
+
     count = 0;
     while ((fgets(buffer, BUFFER_SIZE, file_calls)) != NULL)
     {
         count++;
 
-        /* verifica se a linha atual é a linha que será modificada*/
         if (count == line)
-            fputs(newline, file_temp);
+            fputs(newline, file_temporary);
         else
-            fputs(buffer, file_temp);
+            fputs(buffer, file_temporary);
     }
 
 
-    /* Fecha todos os arquivos e salva as mudanças */
     fclose(file_calls);
-    fclose(file_temp);
+    fclose(file_temporary);
 
 
-    /* Deleta o arquivo original*/
     remove("calls.txt");
 
-    /* Renomeia o temporario para o original*/
-    rename("replace_temp.txt", "calls.txt");
+    rename("replace_temporary.txt", "calls.txt");
     printf("Status modificado com Sucesso\n\n");
 }
 
 
 
-//Imprime os chamados com o codigo de status específico
 
-int searchStatus(int cod_status){
+
+
+
+int display_searched_status(int cod_status){
 
   FILE *file_calls;
 
   char txt[MAXCHAR];
-  int status; // revebe a conversão de str para int de cada status
-  int id_count =0; // Recebe o ID do chamado
-  int count_status = 0; //faz a contagem do número de id's que possui o codigo do status procurado
-  int first_line = 1, last_line, count_line = 0; // contagem de linhas, primeira e ultima linha de cada chamado
-  int rangef[50], rangl[50]; //guarda a primeira e ultima linha de cada chamado  - o indice refere-se a variavel count_status
+  int status;
+  int id_count = 0;
+  int count_status = 0;
+
+  //display range
+  int counter;
+  int first_line = 1, last_line = 0, count_line = 0;
+  int rangef[50], rangl[50];
+
+
 
   file_calls = fopen("calls.txt", "r");
 
@@ -356,27 +354,28 @@ int searchStatus(int cod_status){
     while (fscanf(file_calls, " %99s", txt) != EOF)
     {
 
-      if(strcmp("Status", txt) == 0 ){                      //verifica que leu a palavra Status
+      if(strcmp("Status", txt) == 0 ){
 
-            first_line += 9;
+            first_line += 9; // A linha do ID de cada chamado segue um padrão a partir da linha 10
             last_line = first_line + 6;
 
-           fscanf(file_calls, " %1023s", txt);              //Passa para a palavra seguinte
            fscanf(file_calls, " %1023s", txt);
            fscanf(file_calls, " %1023s", txt);
-           status = atoi(txt);                              //Converte para inteiro
+           fscanf(file_calls, " %1023s", txt);
+           status = atoi(txt);
 
 
-           //Verifica se o status de cada chamado é igual ao selecionado pelo gerente ( aberto/ fechado)
+
            if(status == cod_status){
 
-             rangef[count_status] = first_line; // Armazena a primeira linha do chamado
-             rangl[count_status] = last_line; // Armazena a útima linha do chamado
-             count_status ++; //passa para o proximo índice
+             rangef[count_status] = first_line;
+             rangl[count_status] = last_line;
+             count_status ++;
            }
       }
     }
-    int i;
+
+
 
     printf("------------------------------------------------------------------------------------------------------------------\n");
     printf("|                                                                                                                 |\n");
@@ -385,20 +384,25 @@ int searchStatus(int cod_status){
     printf("|                                          HISTÓRICO DE CHAMADOS                                                  |\n");
     printf("-------------------------------------------------------------------------------------------------------------------\n\n\n");
 
-    //Faz uma varredura na quantidade de chamados com o status selecionado pelo gerente
-    for(i =0; i < count_status; i++){
+
+
+
+    for(counter =0; counter < count_status; counter++){
 
 
         printf("-----------------------------------------------------------------------------------------------------------------------\n");
         file_calls = fopen("calls.txt", "r");
 
-        //Imprime cada chamado separadamente
+
         while (fgets(line, MAX_LINE, file_calls)) {
+
           count_line++;
-          if( count_line >=rangef[i] && count_line <= rangl[i]){
+
+          if( count_line >= rangef[counter] && count_line <= rangl[counter]){
             printf("%s\n",line );
           }
         }
+
         count_line = 0;
 
     }
@@ -410,6 +414,7 @@ int searchStatus(int cod_status){
     return 0;
   }
 }
+
 
 
 //Carregamento do sistema
@@ -424,12 +429,14 @@ void delay(int milliseconds)
         now = clock();
 }
 
-//System Colors
-void cor(){
+
+
+//System colors
+void displayColor(){
   printf("\033[1;33m");
 }
 
-void corReset(){
+void resetColor(){
   printf("\033[0m");
 }
 
@@ -437,17 +444,19 @@ void corReset(){
 
 
 
-// Função principal
+// System of calls
+
 int main(){
 
-  setlocale(LC_ALL,"Portuguese"); // habilitando o uso de Ç e acentos no código
+  setlocale(LC_ALL,"Portuguese");
+
 
 
   //Organizando o uso de data e hora da biblioteca time.h
 
   int hours, minutes, seconds, day, month, year;
 
-  // declarando as estruras da biblioteca time.h
+
   time_t now_time;
   time(&now_time); // retorna as horas em segundos
   struct tm *info_time = localtime(&now_time); // converte de segundos para o sistema local, retornando um ponteiro de tipo tm
@@ -461,7 +470,7 @@ int main(){
   year = info_time->tm_year + 1900; // retorn a quantidade de anos depois de 1900
 
 
-  strcpy(calls.status, "0"); // Todos os chamados inicializão Em aberto
+  strcpy(calls.status, "0"); // Todos os chamados inicializarão Em aberto "0"
 
   strcpy(calls.author, "Jose da Silva\n");
 
@@ -473,15 +482,18 @@ int main(){
   strcpy(customers.password, "1234\n");
 
 
- //Ponteiros de arquivos
-  FILE *file_calls;
-  FILE *msg_feedback;
 
-  //Variaveis para armazenar o login e senha
+
+  FILE *file_calls;
+  FILE *message_feedback;
+
+
+
   char login[10];
   char password[10];
 
   int option_access = 0;
+
 
 /*
  *   Para armazenar as mensagens de feedback e os chamados
@@ -489,21 +501,19 @@ int main(){
  */
 
   file_calls = fopen("calls.txt", "a");
-  msg_feedback = fopen("msg_feedback.txt", "a");
+  message_feedback = fopen("message_feedback.txt", "a");
 
 
-  // Verificação da abertura dos dois arquivos de armazenamento
 
-  // Arquivo de chamados
-  if(file_calls == NULL){
-    printf("File couldn't be opened calls.txt\n");
-    return 0;
+  if (file_calls == NULL || message_feedback == NULL)
+  {
+      printf("\nFile couldn't be opened\n");
+      printf("Please check whether file exists and you have read/write privilege.\n");
+      return 0;
   }
-  // Arquivp de mensagens
-  if(msg_feedback == NULL){
-    printf("File couldn't be opened msg_feedback.txt\n");
-    return 0;
-  }
+
+
+
 
   printf("  ________________________________________________\n"
           " /                                                \\\n"
@@ -566,7 +576,7 @@ int main(){
     fgets(password, 10, stdin);
 
 
-    /* Verifica o login e senha digitado pelo usuário */
+
 
     if((strcmp(login, customers.login) == 0) && (strcmp(password, customers.password) == 0)){
       option_access = 1; //Opção de acesso ao modulo do cliente
@@ -584,6 +594,7 @@ int main(){
       case 1:
         printf("\033[0;32m\nCliente logado com sucesso\n\n\033[0m");
 
+
         // Menu de opções do sistema
          do{
            printf("  ________________________________________________\n"
@@ -592,7 +603,7 @@ int main(){
                     "|   |                                         |    |\n"
                     "|   |          ALANA'S CORPORATION            |    |\n"
                     "|   |                                         |    |\n"
-                    "|   |  1-Criar Chamado                        |    |\n"
+                    "|   |  1-Abrir Chamado                        |    |\n"
                     "|   |  2-Histórico de chamados                |    |\n"
                     "|   |  3-Enviar Mensagem                      |    |\n"
                     "|   |  4-Mensagens Recebidas                  |    |\n"
@@ -618,6 +629,7 @@ int main(){
 
                        do{
                          printf("\n\n");
+                         printf("\033[0;32m\nOpção 1 - Abrir chamado acionado\n\n\033[0m");
                          printf("  ________________________________________________\n"
                                  " /                                                \\\n"
                                   "|    _________________________________________     |\n"
@@ -684,7 +696,7 @@ int main(){
 
 
                                // Formata o armazenamento dos chamados
-                               replaceCallNumbers();
+                               replace_numbers_of_calls();
                                file_calls = fopen("calls.txt", "a");
                                fprintf(file_calls, "ID: %i\n", id_call);
                                fprintf(file_calls, "Autor: %s",calls.author);
@@ -738,7 +750,7 @@ int main(){
 
 
                                // Formata o armazenamento dos chamados
-                               replaceCallNumbers();
+                               replace_numbers_of_calls();
                                file_calls = fopen("calls.txt", "a");
                                fprintf(file_calls, "ID: %i\n", id_call);
                                fprintf(file_calls, "Autor: %s",calls.author);
@@ -771,22 +783,28 @@ int main(){
 
                  //Opção 2 - Histórico de chamados
                  case 2:
-                     fclose(file_calls);
-                     file_calls = fopen("calls.txt", "r");
-                     printf("\n\n");
-                     while (fgets(line, MAX_LINE, file_calls)) {
-                       cor();
-                       printf("%s\n",line );
-                     }
-                     fclose(file_calls);
-                     file_calls = fopen("calls.txt", "a");
-                     corReset();
+                   printf("\n\n");
+                   printf("\033[0;32m\nOpção 2 - Histórico de chamados acionado\n\n\033[0m");
+
+                   fclose(file_calls);
+                   file_calls = fopen("calls.txt", "r");
+                   printf("\n\n");
+
+                   while (fgets(line, MAX_LINE, file_calls)) {
+                     displayColor();
+                     printf("%s\n",line );
+                   }
+                   fclose(file_calls);
+                   file_calls = fopen("calls.txt", "a");
+                   resetColor();
+
+                   printf("\033[0;31m\n\nVocê não possui mais chamados no seu histórico\n\n\033[0m");
                  break;
 
 
                  //Opção 3 - Enviar Mensagem
                  case 3:
-                     printf("\033[0;32mopção 3 - Enviar Mensagem acionado\n");
+                     printf("\033[0;32mopção 3 - Enviar Mensagem acionado\n\033[0m");
                      printf("\n\n");
                      printf("  ________________________________________________\n"
                              " /                                                \\\n"
@@ -810,27 +828,32 @@ int main(){
                                "    ___________________________________________\n\n");
                      printf("Digite sua mensagem: ");
                      clearBuffer();
-                     fgets(msg, 400, stdin);
+                     fgets(message, 400, stdin);
                      clearBuffer();
 
-                     fprintf(msg_feedback, "Autor: %s\n",calls.author);
-                     fprintf(msg_feedback, "Mensagem: %s\n", msg);
-                     fprintf(msg_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+                     fprintf(message_feedback, "Autor: %s\n",calls.author);
+                     fprintf(message_feedback, "Mensagem: %s\n", message);
+                     fprintf(message_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
 
                  break;
 
 
                  //Opção 4 - Mensagens de feedback do gerente
                  case 4:
-                  msg_feedback = fopen("managers_msg.txt", "r");
-                  cor();
                   printf("\n\n");
-                  while (fgets(line, MAX_LINE, msg_feedback)) {
+                  printf("\033[0;32m\nOpção 4 - Mensagens recebidas acionado\n\n\033[0m");
+
+                  message_feedback = fopen("managers_message.txt", "r");
+                  displayColor();
+                  printf("\n\n");
+
+                  while (fgets(line, MAX_LINE, message_feedback)) {
                     printf("%s\n",line );
                   }
-                  corReset();
+                  resetColor();
+
                   printf("\033[0;31m\n\nVocê não possui mais mensagens na caixa de entrada\n\n\033[0m");
-                  fclose(msg_feedback);
+                  fclose(message_feedback);
                  break;
 
 
@@ -846,7 +869,7 @@ int main(){
                  break;
                }
 
-         }while(menu_option != 5); // Com a utilização do Do While, da para incorporar o tratamento de erros
+         }while(menu_option != 5);
 
         break; // break user module
 
@@ -881,11 +904,13 @@ int main(){
             get_option();
             switch (menu_option) {
 
+
               //Opção 1 - Visualizar Chamados
               case 1:
                 do {
 
                 printf("\n\n");
+                printf("\033[0;32m\nOpção 1 - Visualizar chamados acionado\n\n\033[0m");
                 printf("  ________________________________________________\n"
                         " /                                                \\\n"
                          "|    _________________________________________     |\n"
@@ -914,17 +939,19 @@ int main(){
                     //Chamados abertos
                     case 1:
                       search_status = 0;
-                      cor();
-                      searchStatus(search_status);
-                      corReset();
+                      displayColor();
+                      display_searched_status(search_status);
+                      resetColor();
+                      printf("\033[0;31m\n\nVocê não possui mais chamados em aberto no seu histórico\n\n\033[0m");
                       break;
 
                     //Chamados abertos
                     case 2:
                       search_status = 3;
-                      cor();
-                      searchStatus(search_status);
-                      corReset();
+                      displayColor();
+                      display_searched_status(search_status);
+                      resetColor();
+                      printf("\033[0;31m\n\nVocê não possui mais chamados fechados no seu histórico\n\n\033[0m");
                     break;
 
                     //voltar
@@ -945,6 +972,7 @@ int main(){
               case 2:
 
                 printf("\n\n");
+                printf("\033[0;32m\nOpção 2 - Mudar Status acionado\n\n\033[0m");
                 printf("  ________________________________________________\n"
                         " /                                                \\\n"
                          "|    _________________________________________     |\n"
@@ -967,17 +995,21 @@ int main(){
                           "    ___________________________________________\n\n");
                   printf("Insira o ID do chamado que deseja modifcar: ");
                   clearBuffer();
-                  fgets(temp, 3, stdin); // joga a entrada do usuario na variavel temporaria
-                  id_search_temp = atoi(temp); //converte a entrada do usuario para inteiro e poder ser procurado o id na função searchCall
+                  fgets(temporary, 3, stdin);
+                  id_search_temporary = atoi(temporary);
+
                   printf("Insira o codigo do novo status: ");
                   clearBuffer();
-                  fgets(temp, 3, stdin);
-                  new_status = atoi(temp); // Converte a entrada do usuario para inteiro e poder ser procurado o id na função replaceStatus
-                  searchCall(id_search_temp);
-                  replaceStatus(new_status); // Altera o status
+                  fgets(temporary, 3, stdin);
+                  new_status = atoi(temporary);
+                  searchCall(id_search_temporary);
+                  replaceStatus(new_status);
 
-                  //verificar a se o ID buscado consta no histórico ou é inválido
+
+
                   (search == 0) ? printf("\n\n \033[0;31m	ID não encontrado ou inválido \033[0m \n\n"): printf("\n");
+
+
 
                   /* Se o gerente modificar o status para 2 (Em antendimento - visita técnica), ele entra no if e pede para
                   agendar a visita técnica */
@@ -1010,38 +1042,38 @@ int main(){
 
                                 //Opção 1
                                 case 1:
-                                  msg_feedback = fopen("managers_msg.txt", "a");
-                                  fprintf(msg_feedback, "Autor: %s\n", managers.name);
-                                  fprintf(msg_feedback, "Mensagem: O chamado com ID: %d foi agendado para visita técnica no dia: %02d/%02d/%02d - Manhã\n", id_search_temp, day+1, month, year);
-                                  fprintf(msg_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
-                                  fclose(msg_feedback);
+                                  message_feedback = fopen("managers_message.txt", "a");
+                                  fprintf(message_feedback, "Autor: %s\n", managers.name);
+                                  fprintf(message_feedback, "Mensagem: O chamado com ID: %d foi agendado para visita técnica no dia: %02d/%02d/%02d - Manhã\n", id_search_temporary, day+1, month, year);
+                                  fprintf(message_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+                                  fclose(message_feedback);
                                 break;
 
                                 //Opção 2
                                 case 2:
-                                  msg_feedback = fopen("managers_msg.txt", "a");
-                                  fprintf(msg_feedback, "Autor: %s\n", managers.name);
-                                  fprintf(msg_feedback, "Mensagem: O chamado com ID: %d foi agendado para visita técnica no dia: %02d/%02d/%02d - Tarde\n", id_search_temp, day+1, month, year);
-                                  fprintf(msg_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
-                                  fclose(msg_feedback);
+                                  message_feedback = fopen("managers_message.txt", "a");
+                                  fprintf(message_feedback, "Autor: %s\n", managers.name);
+                                  fprintf(message_feedback, "Mensagem: O chamado com ID: %d foi agendado para visita técnica no dia: %02d/%02d/%02d - Tarde\n", id_search_temporary, day+1, month, year);
+                                  fprintf(message_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+                                  fclose(message_feedback);
                                 break;
 
                                 //Opção 3
                                 case 3:
-                                  msg_feedback = fopen("managers_msg.txt", "a");
-                                  fprintf(msg_feedback, "Autor: %s\n", managers.name);
-                                  fprintf(msg_feedback, "Mensagem: O chamado com ID: %d foi agendado para visita técnica no dia: %02d/%02d/%02d - Manhã\n", id_search_temp, day+2, month, year);
-                                  fprintf(msg_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
-                                  fclose(msg_feedback);
+                                  message_feedback = fopen("managers_message.txt", "a");
+                                  fprintf(message_feedback, "Autor: %s\n", managers.name);
+                                  fprintf(message_feedback, "Mensagem: O chamado com ID: %d foi agendado para visita técnica no dia: %02d/%02d/%02d - Manhã\n", id_search_temporary, day+2, month, year);
+                                  fprintf(message_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+                                  fclose(message_feedback);
                                 break;
 
                                 //Opção 4
                                 case 4:
-                                  msg_feedback = fopen("managers_msg.txt", "a");
-                                  fprintf(msg_feedback, "Autor: %s\n", managers.name);
-                                  fprintf(msg_feedback, "Mensagem: O chamado com ID: %d foi agendado para visita técnica no dia: %02d/%02d/%02d - Tarde\n", id_search_temp, day+2, month, year);
-                                  fprintf(msg_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
-                                  fclose(msg_feedback);
+                                  message_feedback = fopen("managers_message.txt", "a");
+                                  fprintf(message_feedback, "Autor: %s\n", managers.name);
+                                  fprintf(message_feedback, "Mensagem: O chamado com ID: %d foi agendado para visita técnica no dia: %02d/%02d/%02d - Tarde\n", id_search_temporary, day+2, month, year);
+                                  fprintf(message_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+                                  fclose(message_feedback);
                                 break;
 
                                 default:
@@ -1058,11 +1090,11 @@ int main(){
               case 3:
                 printf("\033[0;32m\n\nopção 3 -Gerar Relatório acionado\n\033[0m");
                 file_calls = fopen("calls.txt", "r");
-                cor();
+                displayColor();
                 while (fgets(line, MAX_LINE, file_calls)) {
                   printf("%s\n",line );
                 }
-                corReset();
+                resetColor();
                 fclose(file_calls);
               break;
 
@@ -1093,26 +1125,30 @@ int main(){
                           "    ___________________________________________\n\n");
                 printf("Digite sua mensagem: ");
                 clearBuffer();
-                fgets(msg, 400, stdin);
+                fgets(message, 400, stdin);
                 clearBuffer();
 
-                msg_feedback = fopen("managers_msg.txt", "a");
-                fprintf(msg_feedback, "Autor: %s\n", managers.name);
-                fprintf(msg_feedback, "Mensagem: %s\n", msg);
-                fprintf(msg_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
+                message_feedback = fopen("managers_message.txt", "a");
+                fprintf(message_feedback, "Autor: %s\n", managers.name);
+                fprintf(message_feedback, "Mensagem: %s\n", message);
+                fprintf(message_feedback, "-----------------------------------------------------------------------------------------------------------------------\n\n" );
 
               break;
 
               //Opção 5 - Mensagens recebidas
               case 5:
-              msg_feedback = fopen("msg_feedback.txt", "r");
-              cor();
-              while (fgets(line, MAX_LINE, msg_feedback)) {
-                printf("%s\n",line );
-              }
-              printf("\033[0;31m\n\nVocê não possui mais mensagens na caixa de entrada\n\n\033[0m");
-              corReset();
-              fclose(msg_feedback);
+                printf("\n\n");
+                printf("\033[0;32m\nOpção 5 - Mensagens recebidas acionado\n\n\033[0m");
+                message_feedback = fopen("message_feedback.txt", "r");
+                displayColor();
+
+                while (fgets(line, MAX_LINE, message_feedback)) {
+                  printf("%s\n",line );
+                }
+
+                printf("\033[0;31m\n\nVocê não possui mais mensagens na caixa de entrada\n\n\033[0m");
+                resetColor();
+                fclose(message_feedback);
               break;
 
 
