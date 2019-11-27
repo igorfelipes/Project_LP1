@@ -226,6 +226,8 @@ int searchCall(int search_id){
   int id, counter = 1;  // o contador começa em 1 pois o arquivo começa a contagem de linhas a partir do 1
   int line_of_id = 0;
 
+  search = 0;
+
   file_calls = fopen("calls.txt", "r");
 
   if (file_calls){
